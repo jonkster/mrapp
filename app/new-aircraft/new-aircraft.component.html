@@ -1,0 +1,53 @@
+<GridLayout class="grey-background">
+    <ScrollView>
+        <StackLayout class="form" verticalAlignment="center">
+            <StackLayout class="hr-light m-10"></StackLayout>
+            <Label  text="Add New Aircraft" class="h1 text-center action-bar-title"></Label>
+            <StackLayout class="hr-light m-10"></StackLayout>
+            <StackLayout>
+                <StackLayout orientation="vertical">
+                        <StackLayout orientation="horizontal" class="input-field input-sides">
+                                <Label  text="rego: " class="label"></Label>
+                                <StackLayout class="input input-border">
+                                        <TextField class="h1"
+                                                 hint="eg WKM"
+                                                 size="200"
+                                                 maxLength="10"
+                                                 autocorrect="false"
+                                                 (returnPress)="checkRegoSet($event)"
+                                                 autocapitalizationType="allCharacters"
+                                                 [(ngModel)]="aircraft.rego"></TextField>
+                                </StackLayout>
+                        </StackLayout>
+                        <StackLayout orientation="horizontal" class="input-field input-sides">
+                                <Label  text="type: " class="label"></Label>
+                                <StackLayout class="input input-border">
+                                        <TextField class="h1"
+                                                 hint="eg 7GCBC"
+                                                 size="200"
+                                                 maxLength="20"
+                                                 autocorrect="false"
+                                                 autocapitalizationType="allCharacters"
+                                                 [(ngModel)]="aircraft.type"></TextField>
+                                </StackLayout>
+                        </StackLayout>
+
+                        <StackLayout orientation="horizontal" class="input-field input-sides">
+                                <Label class="label font-weight-bold" text="Twin Engine" textWrap="true" row="0" col="0"></Label>
+                                <Switch class="m-15" checked="false" (checkedChange)="setAsTwin($event)" row="0" col="1"></Switch>
+                        </StackLayout>
+                </StackLayout>
+
+
+                <StackLayout class="hr-light m-10"></StackLayout>
+
+                <StackLayout  orientation="horizontal">
+                        <Button class="btn btn-primary" width="100" height="100" text="Save" (tap)="save()" [isEnabled]="canSave"></Button>
+                        <Button class="btn btn-primary" width="100" height="100" text="Cancel"  [nsRouterLink]="['/fleet']"></Button>
+                </StackLayout>
+
+                <StackLayout class="hr-light m-10"></StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</GridLayout>

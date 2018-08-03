@@ -1,0 +1,1 @@
+/home/jonk/KELLY/Projects/nativescript/work/MRApp/platforms/android/app/src/main/assets/metadata

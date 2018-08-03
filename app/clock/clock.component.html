@@ -1,0 +1,26 @@
+<StackLayout margin="24" horizontalAlignment="center" verticalAlignment="center">
+        <StackLayout  orientation="horizontal">
+                <Label class="h3" text="Set Maintenance Clock and TTIS for:"></Label> <Label class="h1" [text]="aircraft.rego"></Label>
+        </StackLayout>
+        <StackLayout orientation="vertical">
+                <StackLayout  orientation="horizontal">
+                        <Label text="Aircraft Total Time In Service (TTIS)" class="label font-weight-bold m-b-5"></Label>
+                        <TextField class="input input-border" [(ngModel)]="aircraft.ttis"
+                                 returnKeyType="done" (returnPress)="updateOffset($event)"></TextField>
+                </StackLayout>
+                <StackLayout  orientation="horizontal">
+                        <Label text="Aircraft Maintenance Clock Reading" class="label font-weight-bold m-b-5"></Label>
+                        <TextField class="input input-border" [(ngModel)]="aircraft.clockTime"
+                                 returnKeyType="done" (returnPress)="updateOffset($event)"></TextField>
+                </StackLayout>
+                <StackLayout  orientation="horizontal">
+                        <Label text="Maintenance Clock Offset" class="label font-weight-bold m-b-5"></Label>
+                        <TextField class="" [ngModel]="aircraft.clockOffset"></TextField>
+                </StackLayout>
+        </StackLayout>
+        <StackLayout orientation="horizontal" marginTop="12">
+            <Button text="save" (tap)="save()"></Button>
+            <Button text="cancel" (tap)="cancel()"></Button>
+        </StackLayout>
+</StackLayout>
+
