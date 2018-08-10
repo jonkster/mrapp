@@ -1,0 +1,27 @@
+<GridLayout>
+    <ScrollView>
+        <StackLayout class="form" verticalAlignment="top">
+                        <StackLayout orientation="horizontal" class="input-field input-sides">
+                                <Label class="label font-weight-bold" text="By Hours" textWrap="true"></Label>
+                                <Switch class="m-15" checked="true" (checkedChange)="toggleByHours($event)"></Switch>
+                        </StackLayout>
+                <Label [text]="showingBy()"></Label>
+                <GridLayout columns="*,*,*,*">
+                        <!--<Label class="h2" col="0" text="#" class="readOnlyLabel"></Label>-->
+                        <Label col="0" text="Hours Left" class="readOnlyLabel h2"></Label>
+                        <Label col="1" text="Rego" class="readOnlyLabel h2"></Label>
+                        <Label col="2" text="Item" class="readOnlyLabel h2"></Label>
+                        <Label col="3" text="Days Left" class="readOnlyLabel h2"></Label>
+                </GridLayout>
+                <StackLayout  orientation="vertical" *ngFor="let item of items; let num=index" class="list-group-item">
+                        <GridLayout columns="*,*,*,*" rows="*" [nsRouterLink]="['/aircraftDetails', item._id]" >
+                                <!--<Label col="0" [text]="num+1" class="block item"></Label>-->
+                                <Label col="0" [text]="getHoursLeft(item)" class="block item"></Label>
+                                <Label col="1" [text]="item.rego" class="block item"></Label>
+                                <Label col="2" [text]="item.item" class="block item"></Label>
+                                <Label col="3" [text]="getDaysLeft(item)" class="block item"></Label>
+                        </GridLayout>
+                </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</GridLayout>
