@@ -1,12 +1,13 @@
 <StackLayout margin="24" horizontalAlignment="center" verticalAlignment="center">
         <StackLayout  orientation="horizontal">
-                <Label class="h3" text="MR Expiry for:"></Label> <Label class="h1" [text]="aircraft.rego"></Label>
+                <Label class="h3 readOnlyLabel" text="MR Expiry for:"></Label> <Label class="h1" [text]="aircraft.rego"></Label>
         </StackLayout>
-        <StackLayout  orientation="horizontal">
-                <Label text="Expiry Hours" class="label font-weight-bold m-b-5"></Label>
+        <StackLayout class="hr-light"></StackLayout>
+        <StackLayout  orientation="vertical">
+                <Label text="Expiry Hours" class="readOnlyLabel"></Label>
                 <TextField class="input input-border" hint="" [(ngModel)]="aircraft.hrsAtMaint"></TextField>
-                <Label  text="Expiry Date" class="label font-weight-bold m-b-5"></Label>
-                <DatePicker  class="input input-border" (loaded)="datePickLoad($event)" (dateChange)="datePickSet($event)" verticalAlignment="center"></DatePicker>
+                <Label  text="Expiry Date" class="readOnlyLabel"></Label>
+                <DatePicker  class="block" (loaded)="datePickLoad($event)" (dateChange)="datePickSet($event)" verticalAlignment="center"></DatePicker>
         </StackLayout>
         <StackLayout orientation="horizontal" marginTop="12">
             <Button text="save" (tap)="save()"></Button>

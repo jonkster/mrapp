@@ -1,10 +1,27 @@
-<ActionBar title="MaintRel App" class="action-bar">
+<RadSideDrawer #x>
+<ActionBar title="MaintRel App" >
+        <NavigationButton icon="res://icon" (tap)="toggle()"></NavigationButton>
+        <!--<ActionItem icon="res://ic_menu" ios.position="left"></ActionItem>-->
 </ActionBar>
+<StackLayout tkDrawerContent class="sideStackLayout">
+        <StackLayout class="sideTitleStackLayout">
+            <Label text="Options" class="h1 sideLabelHeading"></Label>
+        </StackLayout>
+        <StackLayout class="sideStackLayout">
+            <Label text="Show by Type" class="h2 sideLabel"></Label>
+            <Label text="Show by Days/Hours Left" class="h2 sideLabel" [nsRouterLink]="['/reportByHour']"></Label>
+            <Label text="Show by Estimated Expiry Order" class="h2 sideLabel" [nsRouterLink]="['/reportByEstimate']"></Label>
+            <StackLayout class="hr-light m-10"></StackLayout>
+            <Label text="Add New Aircraft" class="h2 sideLabel" (tap)="addAircraft()"></Label>
+        </StackLayout>
+</StackLayout>
 
-<GridLayout class="page">
+<GridLayout class="page" tkMainContent>
     <GridView [items]="fleet" colWidth="30%" rowHeight="100">
     <ng-template let-item="item" let-odd="odd">
-      <StackLayout  [nsRouterLink]="['/aircraftDetails', item._id]" margin="10" borderColor="blue" borderWidth="2" borderRadius="5" verticalAlignment="stretch" class="list-group-item" [class.odd]="odd">
+      <StackLayout  [nsRouterLink]="['/aircraftDetails', item._id]" 
+                        margin="10" borderColor="blue" borderWidth="2" borderRadius="5" verticalAlignment="stretch"
+                         class="list-group-item" [class.odd]="odd">
         <Label verticalAlignment="center" [text]="item.rego" class="h2" textWrap="true"></Label>
         <WrapLayout columns="2" rows="4">
                 <Label verticalAlignment="center" [text]="'type: '" class="font-weight-bold" textWrap="true"></Label>
@@ -25,5 +42,6 @@
       </StackLayout>
     </ng-template>
   </GridView>
-                <Button class="btn btn-primary w-full" width="100" height="100"  text="Add Aircraft" (tap)="addAircraft()"></Button>
+                <!--<Button class="btn btn-primary w-full" width="100" height="100"  text="Add Aircraft" (tap)="addAircraft()"></Button>-->
 </GridLayout>
+</RadSideDrawer>

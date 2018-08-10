@@ -28,6 +28,16 @@ export class AircraftService {
            }
    }
 
+   getMaintDaysLeft(dateTuple: number[]): number {
+           if (dateTuple !== undefined) {
+                   let exDate = new Date(dateTuple[0], dateTuple[1]-1, dateTuple[2]);
+                   let time = exDate.valueOf() - Date.now().valueOf();
+                   return Math.round(time / (24*60*60*1000));
+           } else {
+                   return 0;
+           }
+   }
+
   getTtis(ac: Aircraft): number {
         return ac.clockTime + ac.clockOffset;
   }

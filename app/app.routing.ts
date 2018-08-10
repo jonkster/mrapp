@@ -13,6 +13,8 @@ import { ClockComponent } from "./clock/clock.component";
 
 import { ItemsComponent } from "./item/items.component";
 import { ItemDetailComponent } from "./item/item-detail.component";
+import { ReportByHourComponent } from "./report-by-hour/report-by-hour.component";
+import { ReportByEstimateComponent } from "./report-by-estimate/report-by-estimate.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/fleet", pathMatch: "full" },
@@ -23,7 +25,9 @@ const routes: Routes = [
     { path: "aircraftDetails/:id", component: AircraftDetailsComponent },
     { path: "engineTime/:id", component: EngineTimeComponent },
     { path: "propTime/:id", component: PropTimeComponent },
-    { path: "clockTime/:id", component: ClockComponent }
+    { path: "clockTime/:id", component: ClockComponent },
+    { path: "reportByHour", component: ReportByHourComponent },
+    { path: "reportByEstimate", component: ReportByEstimateComponent }
 ];
 
 @NgModule({

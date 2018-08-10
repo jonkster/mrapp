@@ -7,6 +7,8 @@ import { AppComponent } from "./app.component";
 import { GridViewModule } from 'nativescript-grid-view/angular';
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 
+import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
+
 import { FleetService } from "./fleet/fleet.service";
 import { AircraftService } from "./aircraft-details/aircraft.service";
 import { FleetComponent } from "./fleet/fleet.component";
@@ -21,6 +23,8 @@ import { ItemDetailComponent } from "./item/item-detail.component";
 import { EngineTimeComponent } from "./engine-time/engine-time.component";
 import { PropTimeComponent } from "./prop-time/prop-time.component";
 import { ClockComponent } from "./clock/clock.component";
+import { ReportByHourComponent } from "./report-by-hour/report-by-hour.component";
+import { ReportByEstimateComponent } from "./report-by-estimate/report-by-estimate.component";
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -36,7 +40,8 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
         NativeScriptFormsModule,
         NativeScriptModule,
         GridViewModule,
-        AppRoutingModule
+        AppRoutingModule,
+        NativeScriptUISideDrawerModule
     ],
     declarations: [
         AppComponent,
@@ -49,7 +54,9 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
         ItemDetailComponent,
         EngineTimeComponent,
         PropTimeComponent,
-        ClockComponent
+        ClockComponent,
+        ReportByHourComponent,
+        ReportByEstimateComponent
     ],
     providers: [
         ItemService,

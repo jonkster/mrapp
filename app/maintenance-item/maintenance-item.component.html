@@ -1,20 +1,38 @@
-<StackLayout margin="24" horizontalAlignment="center" verticalAlignment="center">
-        <StackLayout  orientation="horizontal">
-                <Label class="h3" text="Add Maintenance Item for:"></Label> <Label class="h1" [text]="aircraft.rego"></Label>
-                <Button text="Set Hours" (tap)="setHourDate('hours')" class="btn btn-primary" width="100" height="100"></Button>
-                <Button text="Set Date" (tap)="setHourDate('date')" class="btn btn-primary" width="100" height="100"></Button>
-                <Button text="Set Hours and Date" (tap)="setHourDate('both')" class="btn btn-primary" width="100" height="100"></Button>
+<ScrollView>
+        <StackLayout>
+                <Label class="readOnlyLabel" text="Add Maintenance Item for:"></Label>
+                <Label class="h1" [text]="aircraft.rego"></Label>
+                <GridLayout rows="*,*,*,*,*,*,*" columns="*,*,*,*">
+
+                        <Label text="Maintenance Required" class="readOnlyLabel" colSpan="2" row="0"></Label>
+                        <TextField class="input input-border" hint="eg oil change"
+                                         [(ngModel)]="maintenance.maintenance" colSpan="4" row="1"></TextField>
+
+                        <Label text="quick pick:" class="readOnlyLabel" row="2" col="0"></Label>
+                        <Button text="oil change" (tap)="setOilChange('')"
+                                         class="btn btn-primary" width="100" height="60" row="2" col="1"></Button>
+                        <Button text="oil change (rec)" (tap)="setOilChange('recommended')"
+                                         class="btn btn-primary" width="100" height="60" row="2" col="2"></Button>
+
+                        <Label text="set expiry by" class="readOnlyLabel" row="3" col="0"></Label>
+                        <Button [isEnabled]="limitTypeDate" text="Hours" (tap)="setHourDate('hours')"
+                                 class="btn btn-primary" width="100" height="50" row="3" col="1"></Button>
+                        <Button [isEnabled]="limitTypeHours" text="Date" (tap)="setHourDate('date')"
+                                 class="btn btn-primary" width="100" height="50" row="3" col="2"></Button>
+                        <Button [isEnabled]="! (limitTypeDate && limitTypeHours)" text="Hours+Date" (tap)="setHourDate('both')"
+                                 class="btn btn-primary" width="120" height="50" row="3" col="3"></Button>
+
+                         <Label *ngIf="limitTypeHours" text="Hours Due" class="readOnlyLabel" row="4" col="0"></Label>
+                        <TextField *ngIf="limitTypeHours" class="input input-border" hint="" [(ngModel)]="maintenance.dueHrs"
+                                row="4" col="1" ></TextField>
+
+                        <Label  *ngIf="limitTypeDate" text="Date Due" class="readOnlyLabel" row="5" col="0"></Label>
+                        <DatePicker  *ngIf="limitTypeDate" class="input input-border"
+                                row="5" colSpan="3"
+                                 (loaded)="datePickLoad($event)" (dateChange)="datePickSet($event)" verticalAlignment="center"></DatePicker>
+
+                        <Button text="save" (tap)="save()" row="6" col="0"></Button>
+                        <Button text="cancel" (tap)="cancel()" row="6" col="1"></Button>
+                </GridLayout>
         </StackLayout>
-        <StackLayout  orientation="horizontal">
-                <Label text="Maintenance Required" class="label font-weight-bold m-b-5"></Label>
-                <TextField class="input input-border" hint="" [(ngModel)]="maintenance.maintenance"></TextField>
-                <Label *ngIf="limitTypeHours" text="Hours Due" class="label font-weight-bold m-b-5"></Label>
-                <TextField *ngIf="limitTypeHours" class="input input-border" hint="" [(ngModel)]="maintenance.dueHrs"></TextField>
-                <Label  *ngIf="limitTypeDate" text="Date Due" class="label font-weight-bold m-b-5"></Label>
-                <DatePicker  *ngIf="limitTypeDate" class="input input-border" (loaded)="datePickLoad($event)" (dateChange)="datePickSet($event)" verticalAlignment="center"></DatePicker>
-        </StackLayout>
-        <StackLayout orientation="horizontal" marginTop="12">
-            <Button text="save" (tap)="save()"></Button>
-            <Button text="cancel" (tap)="cancel()"></Button>
-        </StackLayout>
-</StackLayout>
+</ScrollView>

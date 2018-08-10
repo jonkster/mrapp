@@ -18,15 +18,13 @@ import { AircraftService } from "../aircraft-details/aircraft.service";
 })
 export class MaintenanceItemComponent implements OnInit {
 
-        @Input() public prompt: string;
         private aircraft: Aircraft;
         private maintenance: MaintenanceItem = <MaintenanceItem>{};
         private limitTypeHours : boolean = true;
         private limitTypeDate : boolean = false;
 
         constructor(private route: ActivatedRoute, private routerExtensions: RouterExtensions, private modal: ModalDialogService, private aircraftService: AircraftService, private fleetService: FleetService) {
-                this.prompt = "Hi THERE!";
-                this.maintenance.maintenance = "Oil Change";
+                this.maintenance.maintenance = "";
                 this.maintenance.dueHrs = 0;
                 this.maintenance.type = "hours";
                 this.maintenance.dueDateTuple = [1970, 1, 1];
@@ -44,6 +42,18 @@ export class MaintenanceItemComponent implements OnInit {
         public datePickSet(ev) {
                 let datePicker = <DatePicker>ev.object;
                 this.maintenance.dueDateTuple = [datePicker.year , datePicker.month, datePicker.day];
+        }
+
+        public setOilChange(type: string) {
+                if (type == 'recommended') {
+                        this.maintenance.maintenance = "recommended Oil Change";
+                } else {
+                        this.maintenance.maintenance = "Oil Change";
+                }
+                this.maintenance.type = "hours";
+                this.maintenance.dueHrs = this.aircraft.ttis + 50;
+                this.limitTypeHours = true;
+                this.limitTypeDate = false;
         }
 
         public setHourDate(type: string) {
@@ -69,8 +79,8 @@ export class MaintenanceItemComponent implements OnInit {
         ngOnInit() {
                 const id = this.route.snapshot.params["id"];
                 this.aircraft = this.fleetService.getAircraft(id);
-                this.maintenance.maintenance = "Oil Change";
-                this.maintenance.dueHrs = this.aircraft.hrsAtMaint - 50;
+                //this.maintenance.maintenance = "Oil Change";
+                //this.maintenance.dueHrs = this.aircraft.hrsAtMaint - 50;
         }
 
         ngOnDestroy() {
