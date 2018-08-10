@@ -11,8 +11,10 @@
 }
 
 .readOnlyLabel {
-        color: red;
+        color: gray;
         padding-left: 20;
+        border-width: 2px;
+        border-color: gray;
 }
 
 .cleared {
@@ -22,5 +24,12 @@
 
 .active {
         color: black;
+}
+
+.sortBy {
+        color: red;
+        border-width: 2px;
+        border-color: red;
+        font-weight: bold;
 }
 

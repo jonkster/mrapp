@@ -11,20 +11,20 @@ export class FleetService {
     private reverse: boolean = false;
     private dateList: any[];
     private hourList: any[];
+    private typeList: any[];
     private estimatedDateList: any[];
 
   constructor(private aircraftService: AircraftService) { 
         this.database = new Couchbase("aircraft-database");
-let push = this.database.createPushReplication("http://mcap.australiaeast.cloudapp.azure.com:4984/mcdata");
-//push.setBasicAuthenticator("curtis", "ce55na6789");
+        let push = this.database.createPushReplication("http://mcap.australiaeast.cloudapp.azure.com:4984/mcdata");
 
-let pull = this.database.createPullReplication("http://mcap.australiaeast.cloudapp.azure.com:4984/mcdata");
-//pull.setBasicAuthenticator("curtis", "ce55na6789");
+        let pull = this.database.createPullReplication("http://mcap.australiaeast.cloudapp.azure.com:4984/mcdata");
 
-push.setContinuous(true);
-pull.setContinuous(true);
-push.start();
-pull.start();
+        push.setContinuous(true);
+        pull.setContinuous(true);
+        push.start();
+        pull.start();
+
         this.database.createView("aircraft", "1", function(document, emitter) {
             if(document.rego) {
                 emitter.emit(document._id, document);
@@ -147,6 +147,25 @@ pull.start();
             return 0;
     }
 
+    private compareByType(a: any, b: any) {
+            let aLeft:string = a.type;
+            let bLeft:string = b.type
+
+            if (aLeft < bLeft) {
+                    return -1;
+            }
+            if (aLeft > bLeft) {
+                    return 1;
+            }
+            if (a.rego < b.rego) {
+                    return -1;
+            }
+            if (a.rego > b.rego) {
+                    return 1;
+            }
+            return 0;
+    }
+
     public getDate() {
         return this.dateList;
     }
@@ -157,6 +176,10 @@ pull.start();
 
     public getHours() {
         return this.hourList;
+    }
+
+    public getType() {
+        return this.typeList;
     }
 
     public reverseSort() {
@@ -207,6 +230,9 @@ pull.start();
 
         this.estimatedDateList = Object.assign([], this.hourList);
         this.estimatedDateList = this.estimatedDateList.sort((a, b) => this.compareByEstimatedDate(a, b));
+
+        this.typeList = Object.assign([], this.hourList);
+        this.typeList = this.typeList.sort((a, b) => this.compareByType(a, b));
 
         if (this.reverse) {
                 this.hourList = this.hourList.reverse();

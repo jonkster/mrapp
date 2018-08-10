@@ -28,6 +28,19 @@ export class FleetComponent implements AfterViewInit, OnInit {
 
         ngOnInit() {
                 this.fleet = this.fleetService.getFleet();
+                this.fleet.sort((a, b) => {
+                        if (a.type < b.type) {
+                                return -1;
+                        } else if (a.type > b.type) {
+                                return 1;
+                        } else if (a.rego < b.rego) {
+                                return -1;
+                        } else if (a.rego > b.rego) {
+                                return 1;
+                        } else {
+                                return 0;
+                        }
+                });
         }
 
         ngAfterViewInit() {

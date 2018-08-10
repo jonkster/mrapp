@@ -8,10 +8,10 @@
                 <Label [text]="showingBy()"></Label>
                 <GridLayout columns="*,*,*,*">
                         <!--<Label class="h2" col="0" text="#" class="readOnlyLabel"></Label>-->
-                        <Label col="0" text="Hours Left" class="readOnlyLabel h2"></Label>
+                        <Label col="0" text="Hours Left" class="readOnlyLabel h2" [ngClass]="{sortBy: sortBy === 'hours'}"></Label>
                         <Label col="1" text="Rego" class="readOnlyLabel h2"></Label>
                         <Label col="2" text="Item" class="readOnlyLabel h2"></Label>
-                        <Label col="3" text="Days Left" class="readOnlyLabel h2"></Label>
+                        <Label col="3" text="Days Left" class="readOnlyLabel h2" [ngClass]="{sortBy: sortBy !== 'hours'}"></Label>
                 </GridLayout>
                 <StackLayout  orientation="vertical" *ngFor="let item of items; let num=index" class="list-group-item">
                         <GridLayout columns="*,*,*,*" rows="*" [nsRouterLink]="['/aircraftDetails', item._id]" >
