@@ -23,20 +23,22 @@
     <ScrollView>
         <StackLayout class="form" verticalAlignment="top">
                 <Label [text]="showingBy()"></Label>
-                <GridLayout columns="*,*,*,*">
+                <GridLayout columns="*,*,*,*,*">
                         <!--<Label class="h2" col="0" text="#" class="readOnlyLabel"></Label>-->
-                        <Label col="0" text="Rego" class="readOnlyLabel h2"></Label>
-                        <Label col="1" text="Item" class="readOnlyLabel h2"></Label>
-                        <Label col="2" text="Days Left" class="readOnlyLabel h2 sortBy"></Label>
-                        <Label col="3" text="Hours Left" class="readOnlyLabel h2"></Label>
+                        <Label col="0" text="Estimated Days" class="readOnlyLabel h2 sortBy"></Label>
+                        <Label col="1" text="Rego" class="readOnlyLabel h2"></Label>
+                        <Label col="2" text="Item" class="readOnlyLabel h2"></Label>
+                        <Label col="3" text="Days Left" class="readOnlyLabel h2"></Label>
+                        <Label col="4" text="Hours Left" class="readOnlyLabel h2"></Label>
                 </GridLayout>
                 <StackLayout  orientation="vertical" *ngFor="let item of items; let num=index" class="list-group-item">
-                        <GridLayout columns="*,*,*,*" rows="*" [nsRouterLink]="['/aircraftDetails', item._id]" >
+                        <GridLayout columns="*,*,*,*,*" rows="*" [nsRouterLink]="['/aircraftDetails', item._id]" >
                                 <!--<Label col="0" [text]="num+1" class="block item"></Label>-->
-                                <Label col="0" [text]="item.rego" class="block item"></Label>
-                                <Label col="1" [text]="item.item" class="block item"></Label>
-                                <Label col="2" [text]="getDaysLeft(item)" class="block item"></Label>
-                                <Label col="3" [text]="getHoursLeft(item)" class="block item"></Label>
+                                <Label col="0" [text]="getEstDays(item)" class="block item"></Label>
+                                <Label col="1" [text]="item.rego" class="block item"></Label>
+                                <Label col="2" [text]="item.item" class="block item"></Label>
+                                <Label col="3" [text]="getDaysLeft(item)" class="block item"></Label>
+                                <Label col="4" [text]="getHoursLeft(item)" class="block item"></Label>
                         </GridLayout>
                 </StackLayout>
         </StackLayout>

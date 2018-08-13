@@ -102,7 +102,19 @@ export class FleetService {
 
     private compareByEstimatedDate(a: any, b: any) {
             let aLeft:number = a.daysLeft;
-            let bLeft:number = b.daysLeft
+            let bLeft:number = b.daysLeft;
+
+            if ((a.hoursLeft !== undefined) && (a.daysLeft !== undefined)) {
+                    if ((a.hoursLeft / 2) < aLeft)  {
+                            aLeft = a.hoursLeft / 2;
+                    }
+            }
+            if ((b.hoursLeft !== undefined) && (b.daysLeft !== undefined)) {
+                    if ((b.hoursLeft / 2) < bLeft)  {
+                            bLeft = b.hoursLeft / 2;
+                    }
+            }
+                
 
             if (aLeft === undefined) {
                 aLeft = 10000;

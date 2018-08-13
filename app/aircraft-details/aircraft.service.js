@@ -5,12 +5,10 @@ var AircraftService = /** @class */ (function () {
     function AircraftService() {
     }
     AircraftService.prototype.getEngineLeft = function (ac, engine) {
-        let hrs =  ac.engineHrsAtMaint[engine - 1] - this.getTtis(ac);
-        return Math.round(hrs * 10) / 10;
+        return ac.engineHrsAtMaint[engine - 1] - this.getTtis(ac);
     };
     AircraftService.prototype.getPropLeft = function (ac, engine) {
-        let hrs = ac.propHrsAtMaint[engine - 1] - this.getTtis(ac);
-        return Math.round(hrs * 10) / 10;
+        return ac.propHrsAtMaint[engine - 1] - this.getTtis(ac);
     };
     AircraftService.prototype.getHrsLeft = function (ac) {
         var hrs = ac.hrsAtMaint - this.getTtis(ac);

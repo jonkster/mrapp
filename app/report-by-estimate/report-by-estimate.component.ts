@@ -40,14 +40,29 @@ export class ReportByEstimateComponent implements AfterViewInit, OnInit {
 
   public getDaysLeft(item: any): string {
                 if (item.daysLeft === undefined) {
-                        return "(est: " + Number(item.hoursLeft) / 2 + ")";
+                        //return Math.round(Number(item.hoursLeft) / 2) + " (est)";
+                        return '-';
                 }
                 return item.daysLeft;
   }
 
+  public getEstDays(item: any): string {
+        if ((item.hoursLeft !== undefined) &&  (item.daysLeft !== undefined))
+        {
+                if ((item.hoursLeft/2) < item.daysLeft) {
+                        return Math.round(Number(item.hoursLeft) / 2) + " (est)";
+                }
+        }
+        if (item.daysLeft === undefined) {
+                return Math.round(Number(item.hoursLeft) / 2) + " (est)";
+        }
+        return item.daysLeft;
+  }
+
   public getHoursLeft(item: any): string {
                 if (item.hoursLeft === undefined) {
-                        return "(est: " + Number(item.daysLeft) * 2 + ")";
+                        //return Math.round(Number(item.daysLeft) * 2) + " (est)";
+                        return '-';
                 }
                 return item.hoursLeft;
   }
