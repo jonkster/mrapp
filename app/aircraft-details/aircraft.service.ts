@@ -15,7 +15,8 @@ export class AircraftService {
     }
 
    getHrsLeft(ac: Aircraft): number {
-        return ac.hrsAtMaint - this.getTtis(ac);
+        let hrs = ac.hrsAtMaint - this.getTtis(ac);
+        return Math.round(hrs*10)/ 10
     }
 
    getDaysLeft(ac: Aircraft): number {

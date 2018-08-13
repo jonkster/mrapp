@@ -1,27 +1,31 @@
 <RadSideDrawer #x>
 <ActionBar title="MaintRel App" >
         <NavigationButton icon="res://icon" (tap)="toggle()"></NavigationButton>
-        <!--<ActionItem icon="res://ic_menu" ios.position="left"></ActionItem>-->
 </ActionBar>
 <StackLayout tkDrawerContent class="sideStackLayout">
-        <StackLayout class="sideTitleStackLayout">
-            <Label text="Options" class="h1 sideLabelHeading"></Label>
-        </StackLayout>
         <StackLayout class="sideStackLayout">
-            <Label text="Show by Type" class="h2 sideLabel"></Label>
-            <Label text="Show by Days/Hours Left" class="h2 sideLabel" [nsRouterLink]="['/reportByHour']"></Label>
-            <Label text="Show by Estimated Expiry Order" class="h2 sideLabel" [nsRouterLink]="['/reportByEstimate']"></Label>
             <StackLayout class="hr-light m-10"></StackLayout>
+            <StackLayout class="sideTitleStackLayout">
+                <Label text="Show By" class="h1 sideLabelHeading"></Label>
+            </StackLayout>
+            <Label text="Days/Hours Left" class="h2 sideLabel" [nsRouterLink]="['/reportByHour']"></Label>
+            <Label text="Estimated Expiry" class="h2 sideLabel" [nsRouterLink]="['/reportByEstimate']"></Label>
+            <StackLayout class="hr-light m-10"></StackLayout>
+            <StackLayout class="sideTitleStackLayout">
+                <Label text="Actions" class="h1 sideLabelHeading"></Label>
+            </StackLayout>
+            <Label text="Send Notification" class="h2 sideLabel" (tap)="appComponent.notifySomeone('hello')"></Label>
             <Label text="Add New Aircraft" class="h2 sideLabel" (tap)="addAircraft()"></Label>
+            <StackLayout class="hr-light m-10"></StackLayout>
         </StackLayout>
 </StackLayout>
 
-<GridLayout class="page" tkMainContent>
+<GridLayout class="page backgroundImageCitabria" tkMainContent>
     <GridView [items]="fleet" colWidth="30%" rowHeight="100">
     <ng-template let-item="item" let-odd="odd">
       <StackLayout  [nsRouterLink]="['/aircraftDetails', item._id]" 
                         margin="10" borderColor="blue" borderWidth="2" borderRadius="5" verticalAlignment="stretch"
-                         class="list-group-item" [class.odd]="odd">
+                         class="list-group-item opaque" [class.odd]="odd">
         <Label verticalAlignment="center" [text]="item.rego" class="h2" textWrap="true"></Label>
         <WrapLayout columns="2" rows="4">
                 <Label verticalAlignment="center" [text]="'type: '" class="font-weight-bold" textWrap="true"></Label>

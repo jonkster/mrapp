@@ -3,9 +3,10 @@ import { Component, ViewChild, OnInit, AfterViewInit, ChangeDetectorRef } from '
 import { Page } from "ui/page";
 import { ActionItem } from "ui/action-bar";
 import { Observable } from "data/observable";
-import {RadSideDrawerComponent, SideDrawerType} from 'nativescript-ui-sidedrawer/angular';
+import { RadSideDrawerComponent, SideDrawerType } from 'nativescript-ui-sidedrawer/angular';
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
+import { AppComponent } from "../app.component";
 import { Aircraft } from "./aircraft";
 import { FleetService } from "./fleet.service";
 import { RouterExtensions } from "nativescript-angular/router";
@@ -21,6 +22,7 @@ export class FleetComponent implements AfterViewInit, OnInit {
 
         constructor(private _changeDetectionRef: ChangeDetectorRef,
                         private routerExtensions: RouterExtensions,
+                        private appComponent: AppComponent,
                         private fleetService: FleetService) { }
 
         @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
@@ -53,7 +55,8 @@ export class FleetComponent implements AfterViewInit, OnInit {
         }
 
         getHrsLeft(ac: Aircraft): number {
-                return ac.hrsAtMaint - this.getTtis(ac);
+                let hrs = ac.hrsAtMaint - this.getTtis(ac);
+                return Math.round(hrs*10)/ 10
         }
 
         getTtis(ac: Aircraft): number {
@@ -64,12 +67,9 @@ export class FleetComponent implements AfterViewInit, OnInit {
                 this.routerExtensions.navigate(["newAircraft"], { clearHistory: false });
         }
 
-stuff(args) {
-    console.log("Share action item tapped.", args);
-}
-public toggle() {
-        this.drawer.toggleDrawerState();
-  }
+        public toggle() {
+                this.drawer.toggleDrawerState();
+        }
 
 
 }

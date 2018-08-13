@@ -5,7 +5,7 @@
         <StackLayout class="hr-light"></StackLayout>
         <StackLayout  orientation="vertical">
                 <Label text="Expiry Hours" class="readOnlyLabel"></Label>
-                <TextField class="input input-border" hint="" [(ngModel)]="aircraft.hrsAtMaint"></TextField>
+                <TextField class="input input-border" hint="" [(ngModel)]="aircraft.hrsAtMaint" keyboardType="number"></TextField>
                 <Label  text="Expiry Date" class="readOnlyLabel"></Label>
                 <DatePicker  class="block" (loaded)="datePickLoad($event)" (dateChange)="datePickSet($event)" verticalAlignment="center"></DatePicker>
         </StackLayout>

@@ -8,7 +8,7 @@
 android {  
   defaultConfig {  
     generatedDensities = []
-    applicationId = "org.nativescript.MRApp"  
+    applicationId = "au.com.motioncapture.MRApp"  
   }  
   aaptOptions {  
     additionalParameters "--no-version-vectors"  

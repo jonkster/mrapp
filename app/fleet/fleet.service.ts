@@ -20,16 +20,19 @@ export class FleetService {
 
         let pull = this.database.createPullReplication("http://mcap.australiaeast.cloudapp.azure.com:4984/mcdata");
 
-        push.setContinuous(true);
         pull.setContinuous(true);
-        push.start();
+        push.setContinuous(true);
+
         pull.start();
+        push.start();
 
         this.database.createView("aircraft", "1", function(document, emitter) {
             if(document.rego) {
                 emitter.emit(document._id, document);
             }
         });
+
+        this.query();
     }
 
     public makeNewAircraft(aircraft: Aircraft) {
@@ -221,6 +224,30 @@ export class FleetService {
                                         }
                                 );
                         }
+                }
+                for (let j = 0; j < ac.propHrsAtMaint.length; j++) {
+                        let hleft = Math.round((ac.engineHrsAtMaint[j] - ac.ttis) * 10) / 10;
+                        this.hourList.push(
+                                        {
+                                        '_id': ac._id,
+                                        'rego': ac.rego,
+                                        'type': 'hours',
+                                        'item': 'engine o/h',
+                                        'hoursLeft': hleft,
+                                        'daysLeft': undefined
+                                        }
+                                );
+                        hleft = Math.round((ac.propHrsAtMaint[j] - ac.ttis) * 10) / 10;
+                        this.hourList.push(
+                                        {
+                                        '_id': ac._id,
+                                        'rego': ac.rego,
+                                        'type': 'hours',
+                                        'item': 'prop o/h',
+                                        'hoursLeft': hleft,
+                                        'daysLeft': undefined
+                                        }
+                                );
                 }
         }
         this.hourList = this.hourList.sort((a, b) => this.compareByHours(a, b));

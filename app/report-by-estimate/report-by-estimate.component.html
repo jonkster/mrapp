@@ -1,4 +1,25 @@
-<GridLayout>
+<RadSideDrawer>
+<ActionBar title="MaintRel App" >
+        <NavigationButton icon="res://icon" (tap)="toggle()"></NavigationButton>
+</ActionBar>
+<StackLayout tkDrawerContent class="sideStackLayout">
+        <StackLayout class="sideStackLayout">
+            <StackLayout class="hr-light m-10"></StackLayout>
+            <StackLayout class="sideTitleStackLayout">
+                <Label text="Show By" class="h1 sideLabelHeading"></Label>
+            </StackLayout>
+            <Label text="Aircraft" class="h2 sideLabel" [nsRouterLink]="['/fleet']"></Label>
+            <Label text="Days/Hours Left" class="h2 sideLabel" [nsRouterLink]="['/reportByHour']"></Label>
+            <StackLayout class="hr-light m-10"></StackLayout>
+            <StackLayout class="sideTitleStackLayout">
+                <Label text="Actions" class="h1 sideLabelHeading"></Label>
+            </StackLayout>
+            <Label text="Send Notification" class="h2 sideLabel" (tap)="notify()"></Label>
+            <!--<Label text="Add New Aircraft" class="h2 sideLabel" (tap)="addAircraft()"></Label>-->
+            <StackLayout class="hr-light m-10"></StackLayout>
+        </StackLayout>
+</StackLayout>
+<GridLayout class="page" tkMainContent>
     <ScrollView>
         <StackLayout class="form" verticalAlignment="top">
                 <Label [text]="showingBy()"></Label>
@@ -21,3 +42,4 @@
         </StackLayout>
     </ScrollView>
 </GridLayout>
+</RadSideDrawer>

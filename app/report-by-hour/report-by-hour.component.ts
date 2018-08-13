@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, ChangeDetectorRef   } from '@angular/core';
+import { RouterExtensions } from "nativescript-angular/router";
+
+import { Page } from "ui/page";
+import { ActionItem } from "ui/action-bar";
+import { Observable } from "data/observable";
+import { RadSideDrawerComponent, SideDrawerType } from 'nativescript-ui-sidedrawer/angular';
+import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
+
 import { Aircraft } from "../fleet/aircraft";
 import { FleetService } from "../fleet/fleet.service";
 
@@ -8,15 +16,25 @@ import { FleetService } from "../fleet/fleet.service";
   templateUrl: './report-by-hour.component.html',
   styleUrls: ['./report-by-hour.component.scss']
 })
-export class ReportByHourComponent implements OnInit {
+export class ReportByHourComponent implements AfterViewInit, OnInit {
 
   public items: any[];
   private sortBy: string = 'hours';
 
-  constructor(private fleetService: FleetService) { }
+  constructor(private _changeDetectionRef: ChangeDetectorRef,
+                        private routerExtensions: RouterExtensions,
+                        private fleetService: FleetService) { }
+
+  @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
+  private drawer: RadSideDrawer;
 
   ngOnInit() {
         this.getBy('hours');
+  }
+
+  ngAfterViewInit() {
+          this.drawer = this.drawerComponent.sideDrawer;
+          this._changeDetectionRef.detectChanges();
   }
 
   public getDaysLeft(item: any): string {
@@ -43,6 +61,10 @@ export class ReportByHourComponent implements OnInit {
         }
   }
 
+  public notify() {
+        alert("not available yet");
+  }
+
   public showingBy() : string {
         if (this.sortBy === 'hours') {
                 return 'Sort by Hours Left';
@@ -58,6 +80,10 @@ export class ReportByHourComponent implements OnInit {
                 this.sortBy = 'date';
           }
           this.getBy(this.sortBy);
+  }
+
+  toggle() {
+        this.drawer.toggleDrawerState();
   }
 
 }

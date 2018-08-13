@@ -24,7 +24,7 @@
 
                          <Label *ngIf="limitTypeHours" text="Hours Due" class="readOnlyLabel" row="4" col="0"></Label>
                         <TextField *ngIf="limitTypeHours" class="input input-border" hint="" [(ngModel)]="maintenance.dueHrs"
-                                row="4" col="1" ></TextField>
+                                row="4" col="1"  keyboardType="number"></TextField>
 
                         <Label  *ngIf="limitTypeDate" text="Date Due" class="readOnlyLabel" row="5" col="0"></Label>
                         <DatePicker  *ngIf="limitTypeDate" class="input input-border"
