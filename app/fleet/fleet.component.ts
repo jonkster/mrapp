@@ -19,6 +19,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 })
 export class FleetComponent implements AfterViewInit, OnInit {
         private fleet: Aircraft[];
+        private sortOrder: string = 'type';
 
         constructor(private _changeDetectionRef: ChangeDetectorRef,
                         private routerExtensions: RouterExtensions,
@@ -30,24 +31,40 @@ export class FleetComponent implements AfterViewInit, OnInit {
 
         ngOnInit() {
                 this.fleet = this.fleetService.getFleet();
-                this.fleet.sort((a, b) => {
-                        if (a.type < b.type) {
-                                return -1;
-                        } else if (a.type > b.type) {
-                                return 1;
-                        } else if (a.rego < b.rego) {
-                                return -1;
-                        } else if (a.rego > b.rego) {
-                                return 1;
-                        } else {
-                                return 0;
-                        }
-                });
+                this.changeSortOrder();
         }
 
         ngAfterViewInit() {
                 this.drawer = this.drawerComponent.sideDrawer;
                 this._changeDetectionRef.detectChanges();
+        }
+
+        changeSortOrder() {
+                if (this.sortOrder === 'type') {
+                        this.fleet.sort((a, b) => {
+                                if (a.type < b.type) {
+                                        return -1;
+                                } else if (a.type > b.type) {
+                                        return 1;
+                                } else if (a.rego < b.rego) {
+                                        return -1;
+                                } else if (a.rego > b.rego) {
+                                        return 1;
+                                } else {
+                                        return 0;
+                                }
+                        });
+                } else if (this.sortOrder === 'alphabetic') {
+                        this.fleet.sort((a, b) => {
+                                if (a.rego < b.rego) {
+                                        return -1;
+                                } else if (a.rego > b.rego) {
+                                        return 1;
+                                } else {
+                                        return 0;
+                                }
+                        });
+                }
         }
 
         getDaysLeft(ac: Aircraft): number {
@@ -69,6 +86,15 @@ export class FleetComponent implements AfterViewInit, OnInit {
 
         public toggle() {
                 this.drawer.toggleDrawerState();
+        }
+
+        public toggleOrder() {
+                if (this.sortOrder === 'type') {
+                        this.sortOrder = 'alphabetic';
+                } else if (this.sortOrder === 'alphabetic') {
+                        this.sortOrder = 'type';
+                }
+                this.changeSortOrder();
         }
 
 

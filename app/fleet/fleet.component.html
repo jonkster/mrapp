@@ -4,6 +4,11 @@
 </ActionBar>
 <StackLayout tkDrawerContent class="sideStackLayout">
         <StackLayout class="sideStackLayout">
+            <StackLayout orientation="horizontal" class="input-field input-sides">
+                        <Label class="sideLabel" text="Alphabetic" textWrap="true"></Label>
+                        <Switch class="m-15" checked="true" (checkedChange)="toggleOrder($event)"></Switch>
+                        <Label class="sideLabel" text="Type" textWrap="true"></Label>
+            </StackLayout>
             <StackLayout class="hr-light m-10"></StackLayout>
             <StackLayout class="sideTitleStackLayout">
                 <Label text="Show By" class="h1 sideLabelHeading"></Label>
