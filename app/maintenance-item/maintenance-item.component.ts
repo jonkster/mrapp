@@ -5,9 +5,9 @@ import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import { DatePicker } from "ui/date-picker";
 import { EventData } from "data/observable";
 
-import { Aircraft, MaintenanceItem } from "../fleet/aircraft";
-import { FleetService } from "../fleet/fleet.service";
-import { AircraftService } from "../aircraft-details/aircraft.service";
+import { Aircraft, MaintenanceItem } from "../common/aircraft";
+import { FleetService } from "../common/fleet.service";
+import { AircraftService } from "../common/aircraft.service";
 
 
 @Component({

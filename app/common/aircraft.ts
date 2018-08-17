@@ -8,6 +8,7 @@ export interface MaintenanceItem {
 
 export interface Aircraft {
     _id: string;
+    _mcType: string;
     rego: string;
     ttis: number;
     type: string;

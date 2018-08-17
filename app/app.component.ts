@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 /*import * as permissions from "nativescript-permissions";
 import * as TNSPhone from 'nativescript-phone';*/
 import * as email from "nativescript-email";
-import { FleetService } from "./fleet/fleet.service";
+import { FleetService } from "./common/fleet.service";
 
 declare var android;
 

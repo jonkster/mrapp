@@ -4,9 +4,10 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { DatePicker } from "ui/date-picker";
 import { TextField } from "ui/text-field";
 import { EventData } from "data/observable";
-import { Aircraft, MaintenanceItem } from "../fleet/aircraft";
-import { FleetService } from "../fleet/fleet.service";
-import { AircraftService } from "./aircraft.service";
+import { Aircraft, MaintenanceItem } from "../common/aircraft";
+import { FleetService } from "../common/fleet.service";
+import { AircraftService } from "../common/aircraft.service";
+import { PermissionsService } from "../permissions.service";
 
 import * as dialogs from "ui/dialogs";
 
@@ -23,13 +24,21 @@ export class AircraftDetailsComponent implements OnInit {
         private engineLeft: number[] = [0, 0];
         private propLeft: number[] = [0, 0];
 
-        constructor(private route: ActivatedRoute, private routerExtensions: RouterExtensions, private aircraftService: AircraftService, private fleetService: FleetService) {
+        constructor(private route: ActivatedRoute,
+                        private routerExtensions: RouterExtensions,
+                        private aircraftService: AircraftService,
+                        private permissionsService: PermissionsService,
+                        private fleetService: FleetService) {
         }
 
         ngOnInit() {
                 const id = this.route.snapshot.params["id"];
                 this.aircraft = this.fleetService.getAircraft(id);
                 this.updateValues();
+        }
+
+        can(action: string) : boolean {
+                return this.permissionsService.can(action);
         }
 
         updateValues() {
@@ -120,7 +129,7 @@ export class AircraftDetailsComponent implements OnInit {
         }
 
         public getHoursLeft(hrs: number): number {
-                return hrs - this.aircraft.ttis;
+                return Math.round((hrs - this.aircraft.ttis)*10)/10;
         }
 
         save(ac: Aircraft) {

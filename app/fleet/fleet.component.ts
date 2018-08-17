@@ -7,9 +7,12 @@ import { RadSideDrawerComponent, SideDrawerType } from 'nativescript-ui-sidedraw
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
 import { AppComponent } from "../app.component";
-import { Aircraft } from "./aircraft";
-import { FleetService } from "./fleet.service";
+import { Aircraft } from "../common/aircraft";
+import { FleetService } from "../common/fleet.service";
+import { PermissionsService } from "../permissions.service";
 import { RouterExtensions } from "nativescript-angular/router";
+
+import * as dialogs from "ui/dialogs";
 
 @Component({
   moduleId: module.id,
@@ -19,24 +22,40 @@ import { RouterExtensions } from "nativescript-angular/router";
 })
 export class FleetComponent implements AfterViewInit, OnInit {
         private fleet: Aircraft[];
-        private sortOrder: string = 'type';
+        private sortOrder: string = 'alphabetic';
+        private activity = false;
+        private acStatusDetails: any = {};
+        private acStatus: any = {};
 
         constructor(private _changeDetectionRef: ChangeDetectorRef,
                         private routerExtensions: RouterExtensions,
+                        private permissionsService: PermissionsService,
                         private appComponent: AppComponent,
                         private fleetService: FleetService) { }
-
         @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
         private drawer: RadSideDrawer;
 
         ngOnInit() {
                 this.fleet = this.fleetService.getFleet();
                 this.changeSortOrder();
+                for (let i = 0; i < this.fleet.length; i++) {
+                        let ac = this.fleet[i];
+                        this.acStatusDetails[ac.rego] = this.fleetService.getAircraftStatusItems(ac); 
+                        this.acStatus[ac.rego] = this.fleetService.getStatus(ac.rego);
+                }
         }
 
         ngAfterViewInit() {
                 this.drawer = this.drawerComponent.sideDrawer;
                 this._changeDetectionRef.detectChanges();
+        }
+
+        isAdminAccess() {
+                return this.permissionsService.isAdminAccess();
+        }
+
+        can(action: string) : boolean {
+                return this.permissionsService.can(action);
         }
 
         changeSortOrder() {
@@ -81,7 +100,60 @@ export class FleetComponent implements AfterViewInit, OnInit {
         }
 
         addAircraft() {
-                this.routerExtensions.navigate(["newAircraft"], { clearHistory: false });
+                this.routerExtensions.navigate(["newAircraft"], { clearHistory: true });
+        }
+
+        public addUser() {
+                dialogs.login({
+                        title: "Add New User",
+                        message: "User",
+                        userName: "",
+                        password: "",
+                        okButtonText: "Add",
+                        cancelButtonText: "Cancel"
+                        }).then((r) => {
+                                if (r.result) {
+                                        if (this.permissionsService.userExists(r.userName)) {
+                                                alert("user: " + r.userName + " already exists");
+                                                return;
+                                        }
+                                        dialogs.action({
+                                                title: "User Category",
+                                                message: "Select User type",
+                                                cancelButtonText: "Cancel",
+                                                actions: ["Admin", "Maintainer", "Pilot", "Read Only"]
+                                        }).then((c) => {
+                                                if (c === "Read Only") {
+                                                        c = 'default';
+                                                } else if (c === "Pilot") {
+                                                        c = 'pilot';
+                                                } else if (c === "Maintainer") {
+                                                        c = 'maintainer';
+                                                } else if (c === "Admin") {
+                                                        c = 'admin';
+                                                }
+                                                this.permissionsService.addNewUser(r.userName, r.password, c);
+                                                this.routerExtensions.navigate(["userAdmin", r.userName], { clearHistory: true });
+                                        });
+                                }
+                        });
+        }
+
+        public removeUser() {
+                this.routerExtensions.navigate(["userAdmin"], { clearHistory: true });
+        }
+
+        public userSettings() {
+                this.routerExtensions.navigate(["userAdmin"], { clearHistory: true });
+        }
+
+        /*public logIn() {
+                this.routerExtensions.navigate(["./user"], { clearHistory: false });
+        }*/
+
+        public logOut() {
+                this.permissionsService.setUser('default');
+                this.routerExtensions.navigate(["./user"], { clearHistory: false });
         }
 
         public toggle() {
@@ -96,6 +168,5 @@ export class FleetComponent implements AfterViewInit, OnInit {
                 }
                 this.changeSortOrder();
         }
-
 
 }

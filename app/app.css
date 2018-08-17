@@ -29,7 +29,7 @@ refer to http://docs.nativescript.org/ui/theme.
 }
 
 .opaque {
-        background-color: red;
+        background-color: #e0e0e0;
         opacity: 1.0;
 }
 

@@ -4,23 +4,32 @@
 </ActionBar>
 <StackLayout tkDrawerContent class="sideStackLayout">
         <StackLayout class="sideStackLayout">
+            <StackLayout class="sideTitleStackLayout">
+                <Label text="Order" class="h2 sideLabelHeading"></Label>
+            </StackLayout>
             <StackLayout orientation="horizontal" class="input-field input-sides">
-                        <Label class="sideLabel" text="Alphabetic" textWrap="true"></Label>
-                        <Switch class="m-15" checked="true" (checkedChange)="toggleOrder($event)"></Switch>
                         <Label class="sideLabel" text="Type" textWrap="true"></Label>
+                        <Switch class="m-15" checked="true" (checkedChange)="toggleOrder($event)"></Switch>
+                        <Label class="sideLabel" text="Alphabetic" textWrap="true"></Label>
             </StackLayout>
             <StackLayout class="hr-light m-10"></StackLayout>
             <StackLayout class="sideTitleStackLayout">
-                <Label text="Show By" class="h1 sideLabelHeading"></Label>
+                <Label text="Report" class="h2 sideLabelHeading"></Label>
             </StackLayout>
-            <Label text="Days/Hours Left" class="h2 sideLabel" [nsRouterLink]="['/reportByHour']"></Label>
+            <Label text="Days/Hours Left" class="h2 sideLabel"  [nsRouterLink]="['/reportByHour']"></Label>
             <Label text="Estimated Expiry" class="h2 sideLabel" [nsRouterLink]="['/reportByEstimate']"></Label>
             <StackLayout class="hr-light m-10"></StackLayout>
             <StackLayout class="sideTitleStackLayout">
-                <Label text="Actions" class="h1 sideLabelHeading"></Label>
+                <Label text="Actions" class="h2 sideLabelHeading"></Label>
             </StackLayout>
             <Label text="Send Notification" class="h2 sideLabel" (tap)="appComponent.notifySomeone('hello')"></Label>
-            <Label text="Add New Aircraft" class="h2 sideLabel" (tap)="addAircraft()"></Label>
+            <Label text="Add New Aircraft" class="h2 sideLabel" (tap)="addAircraft()" *ngIf="can('CAN_ADD_AIRCRAFT')"></Label>
+            <StackLayout class="sideTitleStackLayout">
+                <Label text="Users" class="h2 sideLabelHeading"></Label>
+            </StackLayout>
+            <Label text="Log Out" class="h2 sideLabel" (tap)="logOut()"></Label>
+            <Label text="Add User" class="h2 sideLabel" (tap)="addUser()" *ngIf="can('CAN_ADD_USER')"></Label>
+            <Label text="User Settings" class="h2 sideLabel" (tap)="userSettings()" *ngIf="can('CAN_CHANGE_PW')"></Label>
             <StackLayout class="hr-light m-10"></StackLayout>
         </StackLayout>
 </StackLayout>
@@ -31,26 +40,21 @@
       <StackLayout  [nsRouterLink]="['/aircraftDetails', item._id]" 
                         margin="10" borderColor="blue" borderWidth="2" borderRadius="5" verticalAlignment="stretch"
                          class="list-group-item opaque" [class.odd]="odd">
-        <Label verticalAlignment="center" [text]="item.rego" class="h2" textWrap="true"></Label>
-        <WrapLayout columns="2" rows="4">
-                <Label verticalAlignment="center" [text]="'type: '" class="font-weight-bold" textWrap="true"></Label>
-                <Label verticalAlignment="center" [text]="item.type" class="list-group-item-text" textWrap="true"></Label>
-        </WrapLayout>
-        <WrapLayout columns="2" rows="4">
-                <Label verticalAlignment="center" [text]="'hrs left: '" class="font-weight-bold" textWrap="true"></Label>
-                <Label verticalAlignment="center" [text]="getHrsLeft(item)" class="list-group-item-text" textWrap="true"></Label>
-        </WrapLayout>
-        <WrapLayout columns="2" rows="4">
-                <Label verticalAlignment="center" [text]="'days left: '" class="font-weight-bold" textWrap="true"></Label>
-                <Label verticalAlignment="center" [text]="getDaysLeft(item)" class="list-group-item-text" textWrap="true"></Label>
-        </WrapLayout>
-        <!--<WrapLayout columns="2" rows="4">
-                <Label verticalAlignment="center" [text]="'TTIS: '" class="font-weight-bold" textWrap="true"></Label>
-                <Label verticalAlignment="center" [text]="getTtis(item)" class="list-group-item-text" textWrap="true"></Label>
-        </WrapLayout>-->
+        <GridLayout columns="*,*,*,*" rows="*,*,*,*,*">
+                <Label col="0" row="0" rowspan="2" verticalAlignment="center" [text]="item.rego" class="h2 pull-left" textWrap="true"></Label>
+                <Label col="2" colspan="2" row="0" rowspan="5" verticalAlignment="center"
+                        [ngClass]="{ notify : acStatus[item.rego] }"                        
+                         [text]="acStatusDetails[item.rego]" textWrap="true"></Label>
+                <Label col="0" row="2" verticalAlignment="center" [text]="'type: '" class="font-weight-bold" textWrap="true"></Label>
+                <Label col="1" row="2" verticalAlignment="center" [text]="item.type" class="list-group-item-text" textWrap="true"></Label>
+                <Label col="0" row="3" verticalAlignment="center" [text]="'hrs left: '" class="font-weight-bold" textWrap="true"></Label>
+                <Label col="1" row="3" verticalAlignment="center" [text]="getHrsLeft(item)" class="list-group-item-text" textWrap="true"></Label>
+                <Label col="0" row="4" verticalAlignment="center" [text]="'days left: '" class="font-weight-bold" textWrap="true"></Label>
+                <Label col="1" row="4" verticalAlignment="center" [text]="getDaysLeft(item)" class="list-group-item-text" textWrap="true"></Label>
+        </GridLayout>
       </StackLayout>
     </ng-template>
   </GridView>
-                <!--<Button class="btn btn-primary w-full" width="100" height="100"  text="Add Aircraft" (tap)="addAircraft()"></Button>-->
+  <ActivityIndicator [busy]="activity"></ActivityIndicator>
 </GridLayout>
 </RadSideDrawer>

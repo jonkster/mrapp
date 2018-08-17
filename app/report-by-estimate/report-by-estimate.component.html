@@ -20,7 +20,8 @@
         </StackLayout>
 </StackLayout>
 <GridLayout class="page" tkMainContent>
-    <ScrollView>
+    <ActivityIndicator [busy]="!readyToShow" [visibility]="readyToShow ? 'collapse' : 'visible'"></ActivityIndicator>
+    <ScrollView *ngIf="readyToShow">
         <StackLayout class="form" verticalAlignment="top">
                 <Label [text]="showingBy()"></Label>
                 <GridLayout columns="*,*,*,*,*">

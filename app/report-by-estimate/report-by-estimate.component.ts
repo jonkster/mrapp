@@ -7,8 +7,8 @@ import { RadSideDrawerComponent, SideDrawerType } from 'nativescript-ui-sidedraw
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
 import { AppComponent } from "../app.component";
-import { Aircraft } from "../fleet/aircraft";
-import { FleetService } from "../fleet/fleet.service";
+import { Aircraft } from "../common/aircraft";
+import { FleetService } from "../common/fleet.service";
 
 @Component({
   moduleId: module.id,
@@ -19,6 +19,7 @@ import { FleetService } from "../fleet/fleet.service";
 export class ReportByEstimateComponent implements AfterViewInit, OnInit {
 
   public items: any[];
+  private readyToShow = false;
 
   constructor(private _changeDetectionRef: ChangeDetectorRef,
                         private routerExtensions: RouterExtensions,
@@ -35,6 +36,10 @@ export class ReportByEstimateComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
           this.drawer = this.drawerComponent.sideDrawer;
           this._changeDetectionRef.detectChanges();
+          // a little delay so the spinner has time to show up
+          setTimeout(() => {
+                    this.readyToShow = true;
+          }, 1000);
   }
 
 

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
-import { Aircraft, MaintenanceItem } from "../fleet/aircraft";
-import { FleetService } from "../fleet/fleet.service";
-import { AircraftService } from "../aircraft-details/aircraft.service";
+import { Aircraft, MaintenanceItem } from "../common/aircraft";
+import { FleetService } from "../common/fleet.service";
+import { AircraftService } from "../common/aircraft.service";
 
 
 @Component({

@@ -1,0 +1,24 @@
+<StackLayout>
+         <Label class="h1" text="Maintenance App Log In" stretch="none" horizontalAlignment="center"> </Label>
+         <Image src="res://citabria" stretch="none" horizontalAlignment="center"></Image>
+         <Label text="user name" stretch="none" horizontalAlignment="center"> </Label>
+         <TextField hint="" keyboardType="email" autocorrect="false"
+                         autocapitalizationType="none" [(ngModel)]="user" class="input-field"></TextField>
+         <Label text="" stretch="none" horizontalAlignment="center"> </Label>
+         <TextField hint="Password" secure="true" autocorrect="false"
+                         autocapitalizationType="none" [(ngModel)]="password" class="input-field"></TextField>
+
+         <Button isEnabled="{{ user.length > 0 && password.length > 0 }}"
+                width="200" text="Sign in" class="submit-button" (tap)="logIn()"></Button>
+         <StackLayout class="hr-light m-10"></StackLayout>
+         <Label class="h1" text="OR" stretch="none" horizontalAlignment="center"> </Label>
+         <Button width="200" text="Guest Access" class="submit-button" (tap)="autoLogIn('default')"></Button>
+
+         <Label class="h1" text="OR for debugging" stretch="none" horizontalAlignment="center"> </Label>
+
+         <Button width="200" text="Pilot Access" class="submit-button" (tap)="autoLogIn('pilot')"></Button>
+         <Button width="200" text="Maintainer Access" class="submit-button" (tap)="autoLogIn('maintainer')"></Button>
+         <Button width="200" text="Admin Access" class="submit-button" (tap)="autoLogIn('admin')"></Button>
+         <ActivityIndicator [busy]="activity"></ActivityIndicator>
+</StackLayout>
+

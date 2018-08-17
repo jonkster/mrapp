@@ -7,8 +7,8 @@ import { Observable } from "data/observable";
 import { RadSideDrawerComponent, SideDrawerType } from 'nativescript-ui-sidedrawer/angular';
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
-import { Aircraft } from "../fleet/aircraft";
-import { FleetService } from "../fleet/fleet.service";
+import { Aircraft } from "../common/aircraft";
+import { FleetService } from "../common/fleet.service";
 
 @Component({
   moduleId: module.id,
@@ -20,6 +20,7 @@ export class ReportByHourComponent implements AfterViewInit, OnInit {
 
   public items: any[];
   private sortBy: string = 'hours';
+  private readyToShow = false;
 
   constructor(private _changeDetectionRef: ChangeDetectorRef,
                         private routerExtensions: RouterExtensions,
@@ -35,6 +36,10 @@ export class ReportByHourComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
           this.drawer = this.drawerComponent.sideDrawer;
           this._changeDetectionRef.detectChanges();
+          // a little delay so the spinner has time to show up
+          setTimeout(() => {
+                    this.readyToShow = true;
+          }, 1000);
   }
 
   public getDaysLeft(item: any): string {

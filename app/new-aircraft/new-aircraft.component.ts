@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterExtensions } from "nativescript-angular/router";
-import { Aircraft } from "../fleet/aircraft";
-import { FleetService } from "../fleet/fleet.service";
+import { Aircraft } from "../common/aircraft";
+import { FleetService } from "../common/fleet.service";
 
 //import * as dialogs from "ui/dialogs";
 import { alert } from "ui/dialogs";
@@ -16,6 +16,7 @@ export class NewAircraftComponent implements OnInit {
 
   private aircraft: Aircraft = {
     _id: "",
+    _mcType: "aircraft",
     rego: "",
     ttis: 0,
     type: "",

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Aircraft } from "../fleet/aircraft";
+import { Aircraft } from "./aircraft";
 
 @Injectable()
 export class AircraftService {
@@ -7,11 +7,11 @@ export class AircraftService {
   constructor() { }
 
    getEngineLeft(ac: Aircraft, engine: number): number {
-        return ac.engineHrsAtMaint[engine-1] - this.getTtis(ac);
+        return Math.round(ac.engineHrsAtMaint[engine-1] - this.getTtis(ac));
     }
 
    getPropLeft(ac: Aircraft, engine: number): number {
-        return ac.propHrsAtMaint[engine-1] - this.getTtis(ac);
+        return Math.round(ac.propHrsAtMaint[engine-1] - this.getTtis(ac));
     }
 
    getHrsLeft(ac: Aircraft): number {

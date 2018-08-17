@@ -10,14 +10,15 @@ import { MrExpiryComponent } from "./mr-expiry/mr-expiry.component";
 import { EngineTimeComponent } from "./engine-time/engine-time.component";
 import { PropTimeComponent } from "./prop-time/prop-time.component";
 import { ClockComponent } from "./clock/clock.component";
+import { UserComponent } from "./user/user.component";
+import { UserAdminComponent } from "./user-admin/user-admin.component";
 
-import { ItemsComponent } from "./item/items.component";
-import { ItemDetailComponent } from "./item/item-detail.component";
 import { ReportByHourComponent } from "./report-by-hour/report-by-hour.component";
 import { ReportByEstimateComponent } from "./report-by-estimate/report-by-estimate.component";
 
 const routes: Routes = [
-    { path: "", redirectTo: "/fleet", pathMatch: "full" },
+    { path: "", redirectTo: "/user", pathMatch: "full" },
+    { path: "user", component: UserComponent },
     { path: "fleet", component: FleetComponent },
     { path: "newAircraft", component: NewAircraftComponent },
     { path: "mritem/:id", component: MaintenanceItemComponent },
@@ -27,7 +28,9 @@ const routes: Routes = [
     { path: "propTime/:id", component: PropTimeComponent },
     { path: "clockTime/:id", component: ClockComponent },
     { path: "reportByHour", component: ReportByHourComponent },
-    { path: "reportByEstimate", component: ReportByEstimateComponent }
+    { path: "reportByEstimate", component: ReportByEstimateComponent },
+    { path: "userAdmin", component: UserAdminComponent },
+    { path: "userAdmin/:id", component: UserAdminComponent }
 ];
 
 @NgModule({

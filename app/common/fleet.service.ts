@@ -1,42 +1,33 @@
 import { Injectable } from '@angular/core';
-import {Couchbase} from 'nativescript-couchbase';
-import { AircraftService } from "../aircraft-details/aircraft.service";
+
+import { AircraftService } from "./aircraft.service";
+import { DatabaseService } from "./database.service";
 
 import { Aircraft, MaintenanceItem } from "./aircraft";
 
 @Injectable()
 export class FleetService {
-    public database: any;
     private aircraft: Aircraft[];
     private reverse: boolean = false;
     private dateList: any[];
     private hourList: any[];
     private typeList: any[];
     private estimatedDateList: any[];
+    private acStatus: any = {};
 
-  constructor(private aircraftService: AircraftService) { 
-        this.database = new Couchbase("aircraft-database");
-        let push = this.database.createPushReplication("http://mcap.australiaeast.cloudapp.azure.com:4984/mcdata");
+  constructor(private aircraftService: AircraftService,
+        private databaseService: DatabaseService) { 
 
-        let pull = this.database.createPullReplication("http://mcap.australiaeast.cloudapp.azure.com:4984/mcdata");
+        this.databaseService.setDb("aircraft-database");
+        this.databaseService.createView("aircraft", "aircraft");
 
-        pull.setContinuous(true);
-        push.setContinuous(true);
-
-        pull.start();
-        push.start();
-
-        this.database.createView("aircraft", "1", function(document, emitter) {
-            if(document.rego) {
-                emitter.emit(document._id, document);
-            }
-        });
-
-        this.query();
+        this.aircraft =  this.databaseService.query("aircraft");
+        this.hourList = this.sortByHours(this.aircraft);
     }
 
     public makeNewAircraft(aircraft: Aircraft) {
-            let documentId = this.database.createDocument({
+            let documentId = this.databaseService.createDocument({
+                            "_mcType": "aircraft",
                             "rego": aircraft.rego,
                             "ttis": aircraft.ttis,
                             "type": aircraft.type,
@@ -46,12 +37,61 @@ export class FleetService {
                             "clockTime": aircraft.clockTime,
                             "clockOffset": aircraft.clockOffset,
                             "maintenance": aircraft.maintenance
-                            });
+                            }, "aircraft");
     }
 
+    public getAircraftStatusItems(ac: Aircraft) {
+        ac.ttis = this.aircraftService.getTtis(ac);
+        let summary = '';
+        if (this.getDaysLeft(ac) < 30) {
+                summary += "annual\n";
+        }
+        if (this.aircraftService.getHrsLeft(ac) < 10) {
+                summary += "100hrly\n";
+        }
+        for (let i = 0; i < ac.maintenance.length; i++) {
+                let item: MaintenanceItem = ac.maintenance[i];
+                if (item.maintenance !== "") {
+                        let hleft = undefined;
+                        let dleft = undefined;
+                        if (item.type == 'hours') {
+                                hleft = item.dueHrs - ac.ttis;
+                                if (hleft < 10) {
+                                        summary += item.maintenance + "\n";
+                                }
+                        } else {
+                                dleft = this.aircraftService.getMaintDaysLeft(item.dueDateTuple)
+                                if (dleft < 10) {
+                                        summary += item.maintenance + "\n";
+                                }
+                        }
+                }
+        }
+        for (let i = 0; i < ac.propHrsAtMaint.length; i++) {
+                let hleft = Math.round((ac.engineHrsAtMaint[i] - ac.ttis) * 10) / 10;
+                if (hleft < 100) {
+                        summary += "Eng O/H\n";
+                }
+                let h2left = Math.round((ac.propHrsAtMaint[i] - ac.ttis) * 10) / 10;
+                if (h2left < 50) {
+                        summary += "Prop O/H\n";
+                }
+        }
+        this.acStatus[ac.rego] = false;
+        if (summary !== '') {
+                this.acStatus[ac.rego] = true;
+        }
+        return summary;
+    }
+
+    public getStatus(rego: string) : boolean {
+            return this.acStatus[rego];
+    };
+
     getFleet(): Aircraft[] {
-        this.query();
-        return this.aircraft;
+            this.aircraft =  this.databaseService.query("aircraft");
+            this.hourList = this.sortByHours(this.aircraft);
+            return this.aircraft;
     }
 
     getAircraft(id: string): Aircraft {
@@ -59,17 +99,12 @@ export class FleetService {
     }
 
     public deleteAircraft(id: string) {
-            this.database.deleteDocument(id);
-            this.aircraft =  this.database.executeQuery("aircraft");
+            this.databaseService.deleteDocument(id);
+            this.getFleet();
     }
 
     public getDaysLeft(ac: Aircraft): number {
         return this.aircraftService.getDaysLeft(ac);
-    }
-
-    public query() {
-            this.aircraft =  this.database.executeQuery("aircraft");
-            this.hourList = this.sortByHours(this.aircraft);
     }
 
     public regoExists(rego: string): boolean {
@@ -197,6 +232,7 @@ export class FleetService {
         return this.typeList;
     }
 
+
     public reverseSort() {
         this.reverse = ! this.reverse;
     }
@@ -280,8 +316,8 @@ export class FleetService {
     }    
 
     public updateAircraft(ac: Aircraft) {
-            this.database.updateDocument(ac._id, ac);
-            this.aircraft =  this.database.executeQuery("aircraft");
+            this.databaseService.updateDocument(ac);
+            this.getFleet();
     }
 
 }

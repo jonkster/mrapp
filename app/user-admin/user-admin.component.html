@@ -1,0 +1,16 @@
+<StackLayout>
+         <Label class="h1" text="Maintenance App" stretch="none" horizontalAlignment="center"> </Label>
+         <Image src="res://citabria" stretch="none" horizontalAlignment="center"></Image>
+         <Label class="h1" [text]="'User: ' + user" stretch="none" horizontalAlignment="center"> </Label>
+         <Label class="h1" [text]="'Group: ' + group" stretch="none" horizontalAlignment="center"> </Label>
+         <Label class="" text="Password" stretch="none" horizontalAlignment="center" *ngIf="changingPw"> </Label>
+         <TextField hint="Password" secure="true" autocorrect="false" autocapitalizationType="none" [(ngModel)]="pw" *ngIf="changingPw" class="input-field"></TextField>
+         <Button width="200" text="Save New Password" class="submit-button" (tap)="savePassword()" *ngIf="changingPw"></Button>
+         <Button width="200" text="Delete User" class="submit-button" (tap)="deleteUser()" *ngIf="(! changingPw) && can('CAN_DELETE_USER')"></Button>
+         <Button width="200" text="Change Password" class="submit-button" (tap)="changePassword()" *ngIf="! changingPw"></Button>
+         <Button width="200" text="Edit Privileges" class="submit-button" (tap)="changeClass()" *ngIf="! changingPw && can('CAN_ADJUST_USER')"></Button>
+         <Button width="200" text="Back" class="submit-button" [nsRouterLink]="['/fleet']"></Button>
+
+         <ActivityIndicator [busy]="activity"></ActivityIndicator>
+</StackLayout>
+
