@@ -16,7 +16,7 @@ export class NewAircraftComponent implements OnInit {
 
   private aircraft: Aircraft = {
     _id: "",
-    _mcType: "aircraft",
+    mcType: "aircraft",
     rego: "",
     ttis: 0,
     type: "",

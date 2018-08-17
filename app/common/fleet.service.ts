@@ -27,7 +27,7 @@ export class FleetService {
 
     public makeNewAircraft(aircraft: Aircraft) {
             let documentId = this.databaseService.createDocument({
-                            "_mcType": "aircraft",
+                            "mcType": "aircraft",
                             "rego": aircraft.rego,
                             "ttis": aircraft.ttis,
                             "type": aircraft.type,

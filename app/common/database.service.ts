@@ -6,8 +6,7 @@ export class DatabaseService {
     private dbUrl: string = "http://mcap.australiaeast.cloudapp.azure.com:4984/mcdata";
     private database: any;
 
-  constructor() { 
-    }
+  constructor() { }
 
     public setDb(dbName: string) {
 
@@ -27,19 +26,21 @@ export class DatabaseService {
                 emitter.emit(document._id, document);
             }
         });
+
+	this.query("aircraft");
     }
 
     createDocument(doc: any, mcType: string): string {
-        doc._mcType = mcType;
-        return this.database.createDocument(doc);
+        doc.mcType = mcType;
+        let id = this.database.createDocument(doc);
+        return id;
     }
 
     public createView(name: string, mcType: string) {
 
-        let docRevision: string = "1";
-
-        this.database.createView(name, docRevision, function(document, emitter) {
-            if(document._mcType === mcType) {
+        this.database.createView(name, "1", function(document, emitter) {
+	//if(document.rego) {
+	    if(document.mcType === mcType) {
                 emitter.emit(document._id, document);
             }
         });
@@ -50,7 +51,8 @@ export class DatabaseService {
     }
 
     public query (qryName: string): any[] {
-            return this.database.executeQuery(qryName);
+            let ac = this.database.executeQuery(qryName);
+            return ac;
     }
 
     public updateDocument(item: any) {
