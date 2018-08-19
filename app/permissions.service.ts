@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import {Couchbase} from 'nativescript-couchbase';
 
+import { DatabaseService } from "./common/database.service";
+
 @Injectable()
 export class PermissionsService {
 
   private user: string = 'default';
   private currentUserClass: string = 'default';
   private knownUsers: any = {
-        'admin': { group: 'admin', hash: '6789', email: 'jonathan.p.h.kelly@gmail.com' },
-        'maintainer': { group: 'maintainer', hash: '6789', email: 'jonathan.p.h.kelly@gmail.com' },
-        'pilot': { group: 'pilot', hash: '6789', email: 'jonathan.p.h.kelly@gmail.com' },
-        'default': { group: 'default', hash: '6789', email: 'jonathan.p.h.kelly@gmail.com' }
+        'admin': { group: 'admin', hash: '6789', email: 'jonathan.p.h.kelly@gmail.com', mcType: 'user' },
+        'maintainer': { group: 'maintainer', hash: '6789', email: 'jonathan.p.h.kelly@gmail.com', mcType: 'user' },
+        'pilot': { group: 'pilot', hash: '6789', email: 'jonathan.p.h.kelly@gmail.com', mcType: 'user' },
+        'default': { group: 'default', hash: '6789', email: 'jonathan.p.h.kelly@gmail.com', mcType: 'user' }
   };
 
   private permissionsStore: any = {
@@ -61,28 +63,30 @@ export class PermissionsService {
   };
 
   public database: any;
+  private users: any[];
 
-  constructor() {
-        this.database = new Couchbase("users-database");
-        let push = this.database.createPushReplication("http://mcap.australiaeast.cloudapp.azure.com:4984/mcusers");
-        let pull = this.database.createPullReplication("http://mcap.australiaeast.cloudapp.azure.com:4984/mcusers");
+  constructor( private databaseService: DatabaseService) { 
+        this.databaseService.setDb("aircraft-database");
+        this.databaseService.createView("user", "user");
+	this.updateUsers();
+  }
 
-        pull.setContinuous(true);
-        push.setContinuous(true);
-
-        pull.start();
-        push.start();
-
-        let documentId = this.database.createDocument({
-                            "test": 1,
-                            "record": 2
-                            });
-        console.log(documentId);
+  private updateData() {
+        this.users = this.databaseService.query("user");
+	console.log(this.users);
+	for (let i=0; i < this.users.length; i++) {
+		let doc = this.users[i];
+		this.knownUsers[doc.user] = doc;
+		//let documentId = this.databaseService.createDocument(doc, "user");
+	}
   }
 
   public addNewUser(user: string, pw: string, userClass: string) {
         let hash = this.hashPw(pw);
-        this.knownUsers[user] = {group: userClass, hash: hash, email: 'jonathan.p.h.kelly@gmail.com' };
+        let doc = {group: userClass, hash: hash, email: 'jonathan.p.h.kelly@gmail.com', mcType: "user", user: user };
+	console.log('u', doc);
+	let documentId = this.databaseService.createDocument(doc, "user");
+	this.updateUsers();
   }
 
   public can(item: string): boolean {

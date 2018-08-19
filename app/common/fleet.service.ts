@@ -89,6 +89,7 @@ export class FleetService {
     };
 
     getFleet(): Aircraft[] {
+            this.databaseService.createView("aircraft", "aircraft");
             this.aircraft =  this.databaseService.query("aircraft");
             this.hourList = this.sortByHours(this.aircraft);
             return this.aircraft;

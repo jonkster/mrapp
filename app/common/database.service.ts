@@ -21,13 +21,12 @@ export class DatabaseService {
         pull.start();
         push.start();
 
-        this.database.createView("aircraft", "1", function(document, emitter) {
+	/*this.database.createView("aircraft", "1", function(document, emitter) {
             if(document.rego) {
                 emitter.emit(document._id, document);
             }
-        });
+	    });*/
 
-	this.query("aircraft");
     }
 
     createDocument(doc: any, mcType: string): string {
