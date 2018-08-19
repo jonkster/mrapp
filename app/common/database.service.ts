@@ -36,9 +36,7 @@ export class DatabaseService {
     }
 
     public createView(name: string, mcType: string) {
-
         this.database.createView(name, "1", function(document, emitter) {
-	//if(document.rego) {
 	    if(document.mcType === mcType) {
                 emitter.emit(document._id, document);
             }

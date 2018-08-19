@@ -2,34 +2,55 @@
 <StackLayout>
         <Label class="h3" text="Add Engine O/H Time for:"></Label>
         <Label class="h1" [text]="aircraft.rego"></Label>
-        <!--<StackLayout *ngFor="let engineHrs of aircraft.engineHrsAtMaint; let num=index"  orientation="vertical">-->
-                <GridLayout rows="*,*,*,*" columns="*,*,*" class="block">
+                <GridLayout rows="*,*,*,*" columns="*,*,*,*" class="block">
                         <Label row="0" col="0" text="Engine #1 Hours When O/H Due" class="readOnlyLabel"></Label>
-                        <TextField  row="0" col="2"  keyboardType="number"
+                        <TextField  row="0" col="1"  keyboardType="number"
                                  returnKeyType="done"
                                  class="input input-border"
-                                 [(ngModel)]="aircraft.engineHrsAtMaint[0]"></TextField>
-
+				 (returnPress)="updateHrs('engine', 0, $event)"
+                                 [text]="getHrs('engine', 0)"></TextField>
+                      	<StackLayout row="0" col="2" orientation="horizontal">
+				<Label text="Hrs" class="readOnlyLabel"></Label>
+				<Switch class="m-15" checked="false" (checkedChange)="setOC($event, 'engine', 0)"></Switch>
+				<Label text="On Condition" class="readOnlyLabel"></Label>
+			</StackLayout>
                         <Label row="1" col="0" text="Prop #1 Hours When O/H Due" class="readOnlyLabel"></Label>
-                        <TextField  row="1" col="2"  keyboardType="number"
+                        <TextField  row="1" col="1"  keyboardType="number"
                                  returnKeyType="done" 
                                  class="input input-border"
-                                 [(ngModel)]="aircraft.propHrsAtMaint[0]"></TextField>
+				 (returnPress)="updateHrs('prop', 0, $event)"
+                                 [text]="getHrs('prop', 0)"></TextField>
+                      	<StackLayout row="1" col="2" orientation="horizontal">
+				<Label text="Hrs" class="readOnlyLabel"></Label>
+				<Switch class="m-15" checked="false" (checkedChange)="setOC($event, 'prop', 0)"></Switch>
+				<Label text="On Condition" class="readOnlyLabel"></Label>
+			</StackLayout>
 
                         <Label *ngIf="twin" row="2" col="0" text="Engine #2 Hours When O/H Due" class="readOnlyLabel"></Label>
-                        <TextField *ngIf="twin"  row="2" col="2"  keyboardType="number"
+                        <TextField *ngIf="twin"  row="1" col="2"  keyboardType="number"
                                  returnKeyType="done"
                                  class="input input-border"
-                                 [(ngModel)]="aircraft.engineHrsAtMaint[1]"></TextField>
+				 (returnPress)="updateHrs('engine', 1, $event)"
+                                 [text]="getHrs('engine', 1)"></TextField>
+                      	<StackLayout *ngIf="twin" row="2" col="2" orientation="horizontal">
+				<Label text="Hrs" class="readOnlyLabel"></Label>
+				<Switch class="m-15" checked="false" (checkedChange)="setOC($event, 'engine', 1)"></Switch>
+				<Label text="On Condition" class="readOnlyLabel"></Label>
+			</StackLayout>
 
                         <Label *ngIf="twin" row="3" col="0" text="Prop #2 Hours When O/H Due" class="readOnlyLabel"></Label>
-                        <TextField *ngIf="twin"  row="3" col="2"  keyboardType="number"
+                        <TextField *ngIf="twin"  row="3" col="1"  keyboardType="number"
                                  returnKeyType="done" 
                                  class="input input-border"
-                                 [(ngModel)]="aircraft.propHrsAtMaint[1]"></TextField>
+				 (returnPress)="updateHrs('prop', 1, $event)"
+                                 [text]="getHrs('prop', 1)"></TextField>
+                      	<StackLayout *ngIf="twin" row="3" col="2" orientation="horizontal">
+				<Label text="Hrs" class="readOnlyLabel"></Label>
+				<Switch class="m-15" checked="false" (checkedChange)="setOC($event, 'prop', 1)"></Switch>
+				<Label text="On Condition" class="readOnlyLabel"></Label>
+			</StackLayout>
 
                 </GridLayout>
-        <!--</StackLayout>-->
         <StackLayout orientation="horizontal" class="item">
             <Button text="save" (tap)="save()"></Button>
             <Button text="cancel" (tap)="cancel()"></Button>

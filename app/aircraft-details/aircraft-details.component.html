@@ -30,11 +30,13 @@
                     <StackLayout  orientation="horizontal" *ngFor="let engineHrs of aircraft.engineHrsAtMaint; let num = index;"
                                          class="list-group-item">
                         <Label [text]="'engine #' + (num+1)" className="readOnlyLabel"></Label>
-                        <Label class="h2" hint="" [text]="aircraftService.getEngineLeft(aircraft, 1)"></Label>
+                        <Label class="h2" hint="" [text]="engineLeft[num]"></Label>
+			<!--<Label class="h2" hint="" [text]="aircraftService.getEngineLeft(aircraft, 1)"></Label>-->
                     </StackLayout>
                     <StackLayout  orientation="horizontal" *ngFor="let propHrs of aircraft.propHrsAtMaint; let num = index;" class="list-group-item">
                         <Label [text]="'prop #' + (num+1)" className="readOnlyLabel"></Label>
-                        <Label class="h2" hint="" [text]="aircraftService.getPropLeft(aircraft, (num+1))"></Label>
+                        <Label class="h2" hint="" [text]="propLeft[num]"></Label>
+			<!--<Label class="h2" hint="" [text]="aircraftService.getPropLeft(aircraft, (num+1))"></Label>-->
                      </StackLayout>
                 </StackLayout>
 
@@ -89,13 +91,13 @@
                 <StackLayout  orientation="horizontal" *ngFor="let engineHrs of aircraft.engineHrsAtMaint; let num = index;" class="list-group-item">
                         <GridLayout columns="*,*" rows="*,*,*">
                                 <Label col="0" [text]="'engine #' + (num+1) + ' O/H'" class="label font-weight-bold m-b-5"></Label>
-                                <Label col="1" class="label font-weight-bold m-b-5" [text]="'@ ' + engineHrs + ' hrs'"></Label>
+                                <Label col="1" class="label font-weight-bold m-b-5" [text]="'@ ' + getEngine(num) + ' hrs'"></Label>
                         </GridLayout>
                 </StackLayout>
                 <StackLayout  orientation="horizontal" *ngFor="let propHrs of aircraft.propHrsAtMaint; let num = index;" class="list-group-item">
                         <GridLayout columns="*,*" rows="*,*,*">
                                 <Label col="0" [text]="'prop #' + (num+1) + ' O/H'" class="label font-weight-bold m-b-5"></Label>
-                                <Label col="1" class="label font-weight-bold m-b-5" [text]="'@ ' + propHrs + ' hrs'"></Label>
+                                <Label col="1" class="label font-weight-bold m-b-5" [text]="'@ ' + getProp(num) + ' hrs'"></Label>
                         </GridLayout>
                 </StackLayout>
                 <StackLayout  orientation="horizontal" class="input-field">

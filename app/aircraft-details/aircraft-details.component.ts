@@ -21,8 +21,8 @@ export class AircraftDetailsComponent implements OnInit {
         private aircraft: Aircraft;
         private hoursLeft: number = 0;
         private daysLeft: number = 0;
-        private engineLeft: number[] = [0, 0];
-        private propLeft: number[] = [0, 0];
+        private engineLeft: string[] = ['0', '0'];
+        private propLeft: string[] = ['0', '0'];
 
         constructor(private route: ActivatedRoute,
                         private routerExtensions: RouterExtensions,
@@ -41,12 +41,34 @@ export class AircraftDetailsComponent implements OnInit {
                 return this.permissionsService.can(action);
         }
 
+	getEngine(num: number) : string {
+		let v:string = this.aircraft.engineHrsAtMaint[num].toString();
+		if (v === '987654321') {
+			v = 'OC';
+		}
+		return v;
+	}
+
+	getProp(num: number) : string {
+		let v:string = this.aircraft.propHrsAtMaint[num].toString();
+		if (v === '987654321') {
+			v = 'OC';
+		}
+		return v;
+	}
+
         updateValues() {
                 this.hoursLeft = this.aircraftService.getHrsLeft(this.aircraft);
                 this.daysLeft = this.aircraftService.getDaysLeft(this.aircraft);
                 for (let i = 0; i < this.aircraft.engineHrsAtMaint.length; i++) {
-                        this.engineLeft[i] = this.aircraftService.getEngineLeft(this.aircraft, i+1);
-                        this.propLeft[i] = this.aircraftService.getPropLeft(this.aircraft, i+1);
+                        this.engineLeft[i] = this.aircraftService.getEngineLeft(this.aircraft, i+1).toString();
+                        this.propLeft[i] = this.aircraftService.getPropLeft(this.aircraft, i+1).toString();
+			if (this.aircraft.engineHrsAtMaint[i] === 987654321) {
+				this.engineLeft[i] = 'OC';
+			}
+			if (this.aircraft.propHrsAtMaint[i] === 987654321) {
+				this.propLeft[i] = 'OC';
+			}
                 }
         }
 

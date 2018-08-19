@@ -69,7 +69,7 @@ export class ReportByEstimateComponent implements AfterViewInit, OnInit {
                         //return Math.round(Number(item.daysLeft) * 2) + " (est)";
                         return '-';
                 }
-                return item.hoursLeft;
+		return (Math.round(item.hoursLeft * 10) / 10).toString();
   }
 
   public getBy() {

@@ -147,10 +147,6 @@ export class FleetComponent implements AfterViewInit, OnInit {
                 this.routerExtensions.navigate(["userAdmin"], { clearHistory: true });
         }
 
-        /*public logIn() {
-                this.routerExtensions.navigate(["./user"], { clearHistory: false });
-        }*/
-
         public logOut() {
                 this.permissionsService.setUser('default');
                 this.routerExtensions.navigate(["./user"], { clearHistory: false });

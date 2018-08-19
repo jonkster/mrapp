@@ -68,7 +68,7 @@ export class PermissionsService {
   constructor( private databaseService: DatabaseService) { 
         this.databaseService.setDb("aircraft-database");
         this.databaseService.createView("user", "user");
-	this.updateUsers();
+	this.updateData();
   }
 
   private updateData() {
@@ -86,7 +86,7 @@ export class PermissionsService {
         let doc = {group: userClass, hash: hash, email: 'jonathan.p.h.kelly@gmail.com', mcType: "user", user: user };
 	console.log('u', doc);
 	let documentId = this.databaseService.createDocument(doc, "user");
-	this.updateUsers();
+	this.updateData();
   }
 
   public can(item: string): boolean {
