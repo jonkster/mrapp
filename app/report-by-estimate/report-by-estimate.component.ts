@@ -77,15 +77,8 @@ export class ReportByEstimateComponent implements AfterViewInit, OnInit {
           this.items = this.fleetService.getEstimatedDate();
   }
 
-  public pad(st: string, width:number): string {
-        while (st.length < width) {
-                st += ' ';
-        }
-        return st;
-  }
-
   public notify() {
-        let txt: string = "Upcoming Maintenance in estimated order\n---------------------------------------------\n";
+        let txt: string = sprintf("--- Upcoming Maintenance %-10s ---\n\n", this.showingBy());
 	txt += sprintf("%-6s |  %-40s|%-10s |%-10s\n", "Rego", "Item", "Days Left", "Hrs Left" );
 	txt += "___________________________________________________________________________\n";
         for (let i = 0; i < this.items.length; i++) {
@@ -98,7 +91,7 @@ export class ReportByEstimateComponent implements AfterViewInit, OnInit {
   }
 
   public showingBy() : string {
-          return 'Sort by Estimated Expiry Order';
+          return 'Sorted by Estimated Expiry Order';
   }
 
   toggle() {

@@ -7,8 +7,10 @@ import { Observable } from "data/observable";
 import { RadSideDrawerComponent, SideDrawerType } from 'nativescript-ui-sidedrawer/angular';
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
+import { AppComponent } from "../app.component";
 import { Aircraft } from "../common/aircraft";
 import { FleetService } from "../common/fleet.service";
+import {sprintf} from "../node_modules/sprintf-js";
 
 @Component({
   moduleId: module.id,
@@ -23,6 +25,7 @@ export class ReportByHourComponent implements AfterViewInit, OnInit {
   private readyToShow = false;
 
   constructor(private _changeDetectionRef: ChangeDetectorRef,
+                        private appComponent: AppComponent,
                         private routerExtensions: RouterExtensions,
                         private fleetService: FleetService) { }
 
@@ -67,14 +70,31 @@ export class ReportByHourComponent implements AfterViewInit, OnInit {
   }
 
   public notify() {
-        alert("not available yet");
+	let txt = sprintf("----  Upcoming Maintenance %-10s ----\n\n", this.showingBy());
+        if (this.sortBy === 'hours') {
+                txt += sprintf("%-6s |  %-40s|%-10s |%-10s\n", "Rego", "Item", "Hrs Left", "Days Left" );
+        } else {
+                txt += sprintf("%-6s |  %-40s|%-10s |%-10s\n", "Rego", "Item", "Days Left", "Hrs Left" );
+        }
+	txt += "___________________________________________________________________________\n";
+        for (let i = 0; i < this.items.length; i++) {
+                let item = this.items[i];
+                if (this.sortBy === 'hours') {
+                        txt += sprintf("%6s |  %-40s|%10s |%10s\n", item.rego, item.item, this.getHoursLeft(item), this.getDaysLeft(item));
+                } else {
+                        txt += sprintf("%6s |  %-40s|%10s |%10s\n", item.rego, item.item, this.getDaysLeft(item), this.getHoursLeft(item));
+                }
+        }
+        txt += "\n";
+	txt += "___________________________________________________________________________\n";
+        this.appComponent.notifySomeone(txt);
   }
 
   public showingBy() : string {
         if (this.sortBy === 'hours') {
-                return 'Sort by Hours Left';
+                return 'Sorted by Hours Left';
         } else {
-                return 'Sort by Days Left';
+                return 'Sorted by Days Left';
         }
   }
 
