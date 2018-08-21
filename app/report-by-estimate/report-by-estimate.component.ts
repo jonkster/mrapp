@@ -9,6 +9,7 @@ import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 import { AppComponent } from "../app.component";
 import { Aircraft } from "../common/aircraft";
 import { FleetService } from "../common/fleet.service";
+import {sprintf} from "../node_modules/sprintf-js";
 
 @Component({
   moduleId: module.id,
@@ -84,18 +85,15 @@ export class ReportByEstimateComponent implements AfterViewInit, OnInit {
   }
 
   public notify() {
-        let txt: string = '';
-        txt = this.pad('<b>Estimated Expiry</b>', 20) + "\n";
-        txt += this.pad("Rego", 20) + '|';
-        txt += this.pad("Item", 20) + '|';
-        txt += this.pad("Days Left", 20) + '|';
-        txt += this.pad("Hours Left", 20) + "\n";
+        let txt: string = "Upcoming Maintenance in estimated order\n---------------------------------------------\n";
+	txt += sprintf("%-6s |  %-40s|%-10s |%-10s\n", "Rego", "Item", "Days Left", "Hrs Left" );
+	txt += "___________________________________________________________________________\n";
         for (let i = 0; i < this.items.length; i++) {
                 let item = this.items[i];
-                txt += this.pad(item.rego, 20)  + '|' + this.pad(item.item, 20) + '|' +
-                         this.pad(this.getDaysLeft(item), 20)  + '|' + this.pad(this.getHoursLeft(item), 20) + "\n";
+                txt += sprintf("%6s |  %-40s|%10s |%10s\n", item.rego, item.item, this.getDaysLeft(item), this.getHoursLeft(item));
         }
         txt += "\n";
+	txt += "___________________________________________________________________________\n";
         this.appComponent.notifySomeone(txt);
   }
 
