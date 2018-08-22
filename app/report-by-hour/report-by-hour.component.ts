@@ -70,7 +70,8 @@ export class ReportByHourComponent implements AfterViewInit, OnInit {
   }
 
   public notify() {
-	let txt = sprintf("----  Upcoming Maintenance %-10s ----\n\n", this.showingBy());
+  	let today = this.appComponent.niceDate(new Date());
+	let txt = sprintf("----  Upcoming Maintenance %-10s ----\n %s\n", this.showingBy(), today);
         if (this.sortBy === 'hours') {
                 txt += sprintf("%-6s |  %-40s|%-10s |%-10s\n", "Rego", "Item", "Hrs Left", "Days Left" );
         } else {
@@ -87,7 +88,10 @@ export class ReportByHourComponent implements AfterViewInit, OnInit {
         }
         txt += "\n";
 	txt += "___________________________________________________________________________\n";
-        this.appComponent.notifySomeone(txt);
+        
+        let subj = sprintf("Curtis Aviation Maintenance Report (%s), %s", this.showingBy(), today);
+        let hdg: string = sprintf("Maintenance %-10s, (%s)", this.showingBy(), today);
+        this.appComponent.notifySomeone(subj, hdg, txt);
   }
 
   public showingBy() : string {

@@ -7,6 +7,8 @@ Name:   mcap.australiaeast.cloudapp.azure.com
 Address: 52.187.251.31
 felix Bremmner
 
+./emulator -avd mcdevice -use-system-libs -skin 1536x2048
+
 
 {
     "log": ["*"],
@@ -14,20 +16,6 @@ felix Bremmner
         "mcdata": {
             "server": "http://mcap.australiaeast.cloudapp.azure.com:8091",
             "bucket": "aircraft-database",
-            "username": "curtis",
-            "password": "ce55na6789",
-            "enable_shared_bucket_access": true,
-            "import_docs": "continuous",
-            "users": { "GUEST": { "disabled": false, "admin_channels": ["*"] } },
-            "sync": `function (doc, oldDoc) {
-                if (doc.sdk) {
-                    channel(doc.sdk);
-                }
-            }`
-        },
-        "mcusers": {
-            "server": "http://mcap.australiaeast.cloudapp.azure.com:8091",
-            "bucket": "user-database",
             "username": "curtis",
             "password": "ce55na6789",
             "enable_shared_bucket_access": true,

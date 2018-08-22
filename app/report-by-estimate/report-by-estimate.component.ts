@@ -78,7 +78,8 @@ export class ReportByEstimateComponent implements AfterViewInit, OnInit {
   }
 
   public notify() {
-        let txt: string = sprintf("--- Upcoming Maintenance %-10s ---\n\n", this.showingBy());
+  	let today = this.appComponent.niceDate(new Date());
+        let txt: string = sprintf("--- Upcoming Maintenance %-10s ---\n %s \n", this.showingBy(), today);
 	txt += sprintf("%-6s |  %-40s|%-10s |%-10s\n", "Rego", "Item", "Days Left", "Hrs Left" );
 	txt += "___________________________________________________________________________\n";
         for (let i = 0; i < this.items.length; i++) {
@@ -87,7 +88,9 @@ export class ReportByEstimateComponent implements AfterViewInit, OnInit {
         }
         txt += "\n";
 	txt += "___________________________________________________________________________\n";
-        this.appComponent.notifySomeone(txt);
+        let subj = 'Curtis Aviation Estimated Order Maintenance Report (' + today + ')';
+        let hdg: string = sprintf("Upcoming Maintenance Report, %-10s, (%s)", this.showingBy(), today);
+        this.appComponent.notifySomeone(subj, hdg, txt);
   }
 
   public showingBy() : string {
