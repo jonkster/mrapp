@@ -57,7 +57,7 @@ export class ReportByHourComponent implements AfterViewInit, OnInit {
         if (item.type === 'date') {
                 return '';
         } else {
-                return item.hoursLeft;
+                return (Math.round(Number(item.hoursLeft)*10) / 10).toString();
         }
   }
 

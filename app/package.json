@@ -6,6 +6,7 @@
   "name": "tns-template-hello-world-ng",
   "version": "4.1.0",
   "dependencies": {
+    "npm": "^6.4.0",
     "sprintf-js": "^1.1.1"
   },
   "devDependencies": {

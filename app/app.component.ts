@@ -24,7 +24,6 @@ export class AppComponent {
         }
 
         public notifySomeone(msg: string) {
-	console.log(msg);
                 email.available().then(available => {
                         if (available) {
                                 this.composeOptions.body = msg;
