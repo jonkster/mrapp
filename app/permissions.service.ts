@@ -73,7 +73,6 @@ export class PermissionsService {
 
   private updateData() {
         this.users = this.databaseService.query("user");
-	console.log(this.users);
 	for (let i=0; i < this.users.length; i++) {
 		let doc = this.users[i];
 		this.knownUsers[doc.user] = doc;
@@ -84,7 +83,6 @@ export class PermissionsService {
   public addNewUser(user: string, pw: string, userClass: string) {
         let hash = this.hashPw(pw);
         let doc = {group: userClass, hash: hash, email: 'jonathan.p.h.kelly@gmail.com', mcType: "user", user: user };
-	console.log('u', doc);
 	let documentId = this.databaseService.createDocument(doc, "user");
 	this.updateData();
   }
@@ -152,7 +150,6 @@ export class PermissionsService {
                 this.user = 'default'
         }
         this.setCurrentUserClass(this.getClassOfUser(this.user));
-        console.log(user, this.permissionsStore[this.currentUserClass]);
   }
 
   public setUserClass(user: string, group: string) {

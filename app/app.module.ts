@@ -24,6 +24,7 @@ import { PropTimeComponent } from "./prop-time/prop-time.component";
 import { ClockComponent } from "./clock/clock.component";
 import { ReportByHourComponent } from "./report-by-hour/report-by-hour.component";
 import { ReportByEstimateComponent } from "./report-by-estimate/report-by-estimate.component";
+import { SummaryComponent } from "./summary/summary.component";
 import { UserComponent } from "./user/user.component";
 import { UserAdminComponent } from "./user-admin/user-admin.component";
 
@@ -56,6 +57,7 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
         ClockComponent,
         ReportByHourComponent,
         ReportByEstimateComponent,
+        SummaryComponent,
         UserAdminComponent,
         UserComponent
     ],

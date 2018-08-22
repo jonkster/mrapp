@@ -23,19 +23,29 @@ import * as dialogs from "ui/dialogs";
 export class FleetComponent implements AfterViewInit, OnInit {
         private fleet: Aircraft[];
         private sortOrder: string = 'alphabetic';
-        private activity = false;
         private acStatusDetails: any = {};
         private acStatus: any = {};
+	private readyToShow = false;
 
         constructor(private _changeDetectionRef: ChangeDetectorRef,
+                        private page: Page,
                         private routerExtensions: RouterExtensions,
                         private permissionsService: PermissionsService,
                         private appComponent: AppComponent,
                         private fleetService: FleetService) { }
+
         @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
         private drawer: RadSideDrawer;
 
         ngOnInit() {
+		this.update();
+		this.page.on('navigatingTo', (data) => {
+			this.update();
+			this.readyToShow = true;
+		});
+        }
+
+	update() {
                 this.fleet = this.fleetService.getFleet();
                 this.changeSortOrder();
                 for (let i = 0; i < this.fleet.length; i++) {
@@ -43,11 +53,15 @@ export class FleetComponent implements AfterViewInit, OnInit {
                         this.acStatusDetails[ac.rego] = this.fleetService.getAircraftStatusItems(ac); 
                         this.acStatus[ac.rego] = this.fleetService.getStatus(ac.rego);
                 }
-        }
+	}
 
         ngAfterViewInit() {
                 this.drawer = this.drawerComponent.sideDrawer;
                 this._changeDetectionRef.detectChanges();
+		// a little delay so the spinner has time to show up
+		setTimeout(() => {
+			this.readyToShow = true;
+	    	}, 1000);
         }
 
         isAdminAccess() {
@@ -102,6 +116,11 @@ export class FleetComponent implements AfterViewInit, OnInit {
         addAircraft() {
                 this.routerExtensions.navigate(["newAircraft"], { clearHistory: true });
         }
+
+	goToSummary() {
+		this.readyToShow = false;
+		this.routerExtensions.navigate(["summary"], { clearHistory: false });
+	}
 
         public addUser() {
                 dialogs.login({

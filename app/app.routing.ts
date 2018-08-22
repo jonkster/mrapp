@@ -10,6 +10,7 @@ import { MrExpiryComponent } from "./mr-expiry/mr-expiry.component";
 import { EngineTimeComponent } from "./engine-time/engine-time.component";
 import { PropTimeComponent } from "./prop-time/prop-time.component";
 import { ClockComponent } from "./clock/clock.component";
+import { SummaryComponent } from "./summary/summary.component";
 import { UserComponent } from "./user/user.component";
 import { UserAdminComponent } from "./user-admin/user-admin.component";
 
@@ -29,6 +30,7 @@ const routes: Routes = [
     { path: "clockTime/:id", component: ClockComponent },
     { path: "reportByHour", component: ReportByHourComponent },
     { path: "reportByEstimate", component: ReportByEstimateComponent },
+    { path: "summary", component: SummaryComponent },
     { path: "userAdmin", component: UserAdminComponent },
     { path: "userAdmin/:id", component: UserAdminComponent }
 ];

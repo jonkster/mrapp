@@ -14,15 +14,18 @@ export class FleetService {
     private typeList: any[];
     private estimatedDateList: any[];
     private acStatus: any = {};
+    private busy: boolean = false;
 
   constructor(private aircraftService: AircraftService,
         private databaseService: DatabaseService) { 
 
+	this.busy = true;
         this.databaseService.setDb("aircraft-database");
         this.databaseService.createView("aircraft", "aircraft");
 
         this.aircraft =  this.databaseService.query("aircraft");
         this.hourList = this.sortByHours(this.aircraft);
+	this.busy = false;
     }
 
     public makeNewAircraft(aircraft: Aircraft) {
@@ -84,15 +87,25 @@ export class FleetService {
         return summary;
     }
 
+    public getBusy() : boolean {
+    	return this.busy;
+    }
+
+    public setBusy() {
+    	this.busy = true;
+    }
+
     public getStatus(rego: string) : boolean {
             return this.acStatus[rego];
     };
 
     getFleet(): Aircraft[] {
-            this.databaseService.createView("aircraft", "aircraft");
-            this.aircraft =  this.databaseService.query("aircraft");
-            this.hourList = this.sortByHours(this.aircraft);
-            return this.aircraft;
+	    this.busy = true;
+	    this.databaseService.createView("aircraft", "aircraft");
+	    this.aircraft =  this.databaseService.query("aircraft");
+	    this.hourList = this.sortByHours(this.aircraft);
+	    this.busy = false;
+	    return this.aircraft;
     }
 
     getAircraft(id: string): Aircraft {

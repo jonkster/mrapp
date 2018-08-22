@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+
 /*import * as permissions from "nativescript-permissions";
 import * as TNSPhone from 'nativescript-phone';*/
 import * as email from "nativescript-email";
@@ -32,6 +33,7 @@ export class AppComponent {
 			]
                 };
         }
+
 
 	public createAttachment(hdg: string, msg: string): boolean {
 		let documents = fs.knownFolders.documents();

@@ -1,6 +1,6 @@
 <RadSideDrawer #x>
 <ActionBar title="MaintRel App" >
-        <NavigationButton icon="res://icon" (tap)="toggle()"></NavigationButton>
+	<NavigationButton icon="res://icon" (tap)="toggle()"></NavigationButton>
 </ActionBar>
 <StackLayout tkDrawerContent class="sideStackLayout">
         <StackLayout class="sideStackLayout">
@@ -18,6 +18,7 @@
             </StackLayout>
             <Label text="Days/Hours Left" class="h2 sideLabel"  [nsRouterLink]="['/reportByHour']"></Label>
             <Label text="Estimated Expiry" class="h2 sideLabel" [nsRouterLink]="['/reportByEstimate']"></Label>
+            <Label text="TTIS Report" class="h2 sideLabel" (tap)="goToSummary()"></Label>
             <StackLayout class="hr-light m-10"></StackLayout>
             <StackLayout class="sideTitleStackLayout">
                 <Label text="Actions" class="h2 sideLabelHeading"></Label>
@@ -35,6 +36,8 @@
 </StackLayout>
 
 <GridLayout class="page backgroundImageCitabria" tkMainContent>
+    <ActivityIndicator [busy]="!readyToShow" [visibility]="readyToShow ? 'collapse' : 'visible'"></ActivityIndicator>
+    <ScrollView *ngIf="readyToShow">
     <GridView [items]="fleet" colWidth="30%" rowHeight="100">
     <ng-template let-item="item" let-odd="odd">
       <StackLayout  [nsRouterLink]="['/aircraftDetails', item._id]" 
@@ -55,6 +58,6 @@
       </StackLayout>
     </ng-template>
   </GridView>
-  <ActivityIndicator [busy]="activity"></ActivityIndicator>
+  </ScrollView>
 </GridLayout>
 </RadSideDrawer>
