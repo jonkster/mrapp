@@ -1,0 +1,36 @@
+.block {
+        border-color: gray;
+        border-width: 1px;
+        vertical-align: center;
+}
+
+.item {
+        font-size: 15;
+        text-align: center;
+        padding: 5 0;
+}
+
+.readOnlyLabel {
+        color: gray;
+        padding-left: 2;
+        border-width: 2px;
+        border-color: gray;
+}
+
+.cleared {
+        color: gray;
+        text-decoration: line-through;
+}
+
+.active {
+        color: black;
+}
+
+.sortBy {
+        color: red;
+        border-width: 2px;
+        border-color: red;
+        font-weight: bold;
+}
+
+

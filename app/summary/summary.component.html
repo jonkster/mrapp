@@ -1,0 +1,55 @@
+<RadSideDrawer #x>
+<ActionBar title="MaintRel App" >
+        <NavigationButton icon="res://icon" (tap)="toggle()"></NavigationButton>
+</ActionBar>
+<StackLayout tkDrawerContent class="sideStackLayout">
+        <StackLayout class="sideStackLayout">
+            <StackLayout class="hr-light m-10"></StackLayout>
+            <StackLayout class="sideTitleStackLayout">
+                <Label text="Report" class="h2 sideLabelHeading"></Label>
+            </StackLayout>
+            <Label text="Aircraft" class="h2 sideLabel" [nsRouterLink]="['/fleet']"></Label>
+            <Label text="Days/Hours Left" class="h2 sideLabel"  [nsRouterLink]="['/reportByHour']"></Label>
+            <Label text="Estimated Expiry" class="h2 sideLabel" [nsRouterLink]="['/reportByEstimate']"></Label>
+            <StackLayout class="hr-light m-10"></StackLayout>
+            <StackLayout class="sideTitleStackLayout">
+                <Label text="Actions" class="h2 sideLabelHeading"></Label>
+            </StackLayout>
+            <Label text="Send Notification" class="h2 sideLabel" (tap)="appComponent.notifySomeone('hello')"></Label>
+            <StackLayout class="hr-light m-10"></StackLayout>
+        </StackLayout>
+</StackLayout>
+
+<GridLayout class="page" tkMainContent>
+    <ActivityIndicator [busy]="!readyToShow" [visibility]="readyToShow ? 'collapse' : 'visible'"></ActivityIndicator>
+    <ScrollView *ngIf="readyToShow">
+        <StackLayout class="form" verticalAlignment="top">
+        	<StackLayout orientation="horizontal" >
+			<Label class="sideLabel" text="Type" textWrap="true"></Label>
+			<Switch class="m-15" checked="true" (checkedChange)="toggleOrder($event)"></Switch>
+			<Label class="sideLabel" text="Alphabetic" textWrap="true"></Label>
+        	</StackLayout>
+                <GridLayout columns="*,*,*,*,*,*,*,*">
+                        <Label col="0" text="Rego" class="readOnlyLabel h3"></Label>
+                        <Label col="1" text="type" class="readOnlyLabel h3" ></Label>
+                        <Label col="2" text="TTIS" class="readOnlyLabel h3" ></Label>
+                        <Label col="3" text="MR @ Hrs" class="readOnlyLabel h3" ></Label>
+                        <Label col="4" text="MR @ Date" class="readOnlyLabel h3" ></Label>
+                        <Label col="5" text="Eng O/H @" class="readOnlyLabel h3" ></Label>
+                        <Label col="6" text="Prop O/H @" class="readOnlyLabel h3" ></Label>
+                </GridLayout>
+                <StackLayout  orientation="vertical" *ngFor="let ac of fleet; let num=index" class="list-group-item">
+                        <GridLayout columns="*,*,*,*,*,*,*,*" rows="*" [nsRouterLink]="['/aircraftDetails', ac._id]">
+                                <Label col="0" [text]="ac.rego" class="block item"></Label>
+                                <Label col="1" [text]="ac.type" class="block item"></Label>
+                                <Label col="2" [text]="ac.ttis" class="block item"></Label>
+                                <Label col="3" [text]="ac.hrsAtMaint" class="block item"></Label>
+                                <Label col="4" [text]="getAnnualDate(ac)" class="block item"></Label>
+                                <Label col="5" [text]="getEngineOH(ac)" class="block item"></Label>
+                                <Label col="6" [text]="getPropOH(ac)" class="block item"></Label>
+                        </GridLayout>
+                </StackLayout>
+      </StackLayout>
+    </ScrollView>
+</GridLayout>
+</RadSideDrawer>
