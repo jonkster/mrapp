@@ -13,7 +13,8 @@
 }
 .readOnlyLabel {
         color: red;
-        padding-left: 20;
+        padding-left: 10;
+        padding-right: 10;
 }
 
 .cleared {
@@ -21,6 +22,23 @@
         text-decoration: line-through;
 }
 
+.warn, .alert {
+	border-width: 3;
+	border-color: black;
+}
+
 .active {
         color: black;
+}
+
+.alert {
+	padding: 5;
+	color: black;
+	background-color: red;
+}
+
+.warn {
+	padding: 5;
+	color: black;
+	background-color: orange;
 }

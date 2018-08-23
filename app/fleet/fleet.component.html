@@ -23,7 +23,6 @@
             <StackLayout class="sideTitleStackLayout">
                 <Label text="Actions" class="h2 sideLabelHeading"></Label>
             </StackLayout>
-            <Label text="Send Notification" class="h2 sideLabel" (tap)="appComponent.notifySomeone('hello')"></Label>
             <Label text="Add New Aircraft" class="h2 sideLabel" (tap)="addAircraft()" *ngIf="can('CAN_ADD_AIRCRAFT')"></Label>
             <StackLayout class="sideTitleStackLayout">
                 <Label text="Users" class="h2 sideLabelHeading"></Label>

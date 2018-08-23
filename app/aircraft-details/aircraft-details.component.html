@@ -13,35 +13,29 @@
                         </StackLayout>
                         <Button width="100" height="80" class="btn btn-primary" text="Save Changes" (tap)="save(aircraft)" *ngIf="can('CAN_CHANGE_HOURS')"></Button>
                         <Button width="100" height="80" class="btn btn-success block" text="Close"  [nsRouterLink]="['/fleet']"></Button>
-                </StackLayout>
-            <StackLayout class="hr-light m-10"></StackLayout>
-
-            <StackLayout orientation="vertical">
-
-
+		</StackLayout>
+                <StackLayout orientation="vertical">
+			<StackLayout class="hr-light m-10"></StackLayout>
+			<StackLayout orientation="horizontal">
+			    <Label class="h2" text="To Run"></Label>
+			    <Label className="readOnlyLabel" text="hrs"></Label>
+			    <Label class="h2" [text]="aircraftService.getHrsLeft(aircraft)" [ngClass]="{alert:hrsAlert == 2, warn:hrsAlert == 1}"></Label>
+			    <Label className="readOnlyLabel" text="Days"></Label>
+			    <Label class="h2" [text]="aircraftService.getDaysLeft(aircraft)" [ngClass]="{alert:daysAlert == 2, warn:daysAlert == 1}"></Label>
+			    <StackLayout  orientation="horizontal" *ngFor="let engineHrs of aircraft.engineHrsAtMaint; let num = index;"
+                                         class="list-group-item">
+				<Label [text]="'engine #' + (num+1)" className="readOnlyLabel"></Label>
+				<Label class="h2" hint="" [text]="engineLeft[num]" [ngClass]="{alert:engAlert[num] == 2, warn:engAlert[num] == 1}"></Label>
+			    </StackLayout>
+			    <StackLayout  orientation="horizontal" *ngFor="let propHrs of aircraft.propHrsAtMaint; let num = index;" class="list-group-item">
+				<Label [text]="'prop #' + (num+1)" className="readOnlyLabel"></Label>
+				<Label class="h2" hint="" [text]="propLeft[num]" [ngClass]="{alert:propAlert[num] == 2, warn:propAlert[num] == 1}"></Label>
+			     </StackLayout>
+			</StackLayout>
                 <StackLayout class="hr-light m-10"></StackLayout>
 
-
                 <StackLayout orientation="horizontal">
-                    <Label className="readOnlyLabel" text="Hours Left"></Label>
-                    <Label class="h2" [text]="aircraftService.getHrsLeft(aircraft)"></Label>
-                    <Label className="readOnlyLabel" text="Days"></Label>
-                    <Label class="h2" [text]="aircraftService.getDaysLeft(aircraft)"></Label>
-                    <StackLayout  orientation="horizontal" *ngFor="let engineHrs of aircraft.engineHrsAtMaint; let num = index;"
-                                         class="list-group-item">
-                        <Label [text]="'engine #' + (num+1)" className="readOnlyLabel"></Label>
-                        <Label class="h2" hint="" [text]="engineLeft[num]"></Label>
-			<!--<Label class="h2" hint="" [text]="aircraftService.getEngineLeft(aircraft, 1)"></Label>-->
-                    </StackLayout>
-                    <StackLayout  orientation="horizontal" *ngFor="let propHrs of aircraft.propHrsAtMaint; let num = index;" class="list-group-item">
-                        <Label [text]="'prop #' + (num+1)" className="readOnlyLabel"></Label>
-                        <Label class="h2" hint="" [text]="propLeft[num]"></Label>
-			<!--<Label class="h2" hint="" [text]="aircraftService.getPropLeft(aircraft, (num+1))"></Label>-->
-                     </StackLayout>
-                </StackLayout>
-
-                <StackLayout orientation="horizontal">
-
+		    <Label class="h2" text="M.R."></Label>
                     <Label className="readOnlyLabel" text="TTIS: "></Label>
                     <Label class="h2" [text]="aircraftService.getTtis(aircraft)"></Label>
                     <Label className="readOnlyLabel" text="MR Expires hrs: "></Label>

@@ -23,6 +23,11 @@ export class AircraftDetailsComponent implements OnInit {
         private daysLeft: number = 0;
         private engineLeft: string[] = ['0', '0'];
         private propLeft: string[] = ['0', '0'];
+        private hrsAlert: number = 0;
+        private daysAlert: number = 0;
+
+	private engAlert: number[] = [0, 0];
+        private propAlert: number[] = [0, 0];
 
         constructor(private route: ActivatedRoute,
                         private routerExtensions: RouterExtensions,
@@ -57,6 +62,36 @@ export class AircraftDetailsComponent implements OnInit {
 		return v;
 	}
 
+	setAlertStates() {
+	        this.hrsAlert = 0;
+		if (this.hoursLeft < 10) {
+			this.hrsAlert = 2;
+		} else if (this.hoursLeft < 20) {
+			this.hrsAlert = 1;
+		}
+	        this.daysAlert = 0;
+		if (this.daysLeft < 7) {
+			this.daysAlert = 2;
+		} else if (this.daysLeft < 14) {
+			this.daysAlert = 1;
+		}
+
+		for (let i = 0; i < this.propLeft.length; i++) {
+			this.engAlert[i] = 0;
+			if (Number(this.engineLeft[i]) < 25) {
+				this.engAlert[i] = 2;
+			} else if (Number(this.engineLeft[i]) < 100) {
+				this.engAlert[i] = 1;
+			}
+			this.propAlert[i] = 0;
+			if (Number(this.propLeft[i]) < 25) {
+				this.propAlert[i] = 2;
+			} else if (Number(this.propLeft[i]) < 100) {
+				this.propAlert[i] = 1;
+			}
+		}
+	}
+
         updateValues() {
                 this.hoursLeft = this.aircraftService.getHrsLeft(this.aircraft);
                 this.daysLeft = this.aircraftService.getDaysLeft(this.aircraft);
@@ -70,6 +105,7 @@ export class AircraftDetailsComponent implements OnInit {
 				this.propLeft[i] = 'OC';
 			}
                 }
+		this.setAlertStates();
         }
 
         adjustClockTime(args) {
